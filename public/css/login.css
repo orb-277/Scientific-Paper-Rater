@@ -49,8 +49,7 @@ input{
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     font-size:19.2px;
-    margin: 15px
-    
+    margin: 15px;
     color: rgba(248,249,250, .5);
 }
 input:focus{
