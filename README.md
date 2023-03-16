@@ -5,5 +5,5 @@ This is a simple web application that allows users to rate scientific papers. Th
 node framework and the express framework, and uses html/css for the frontend.
 
 ### Why ? 
-Reccomended by the Prof. as an internal requirement for PICT. So we decided to build it. 
+Recommended by the Prof. as an internal requirement for PICT. So we decided to build it. 
 
