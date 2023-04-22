@@ -15,7 +15,7 @@ async function scrapeAssociation(DOI)
     var scraped = {}; 
     var res = await axios.get(DOI);
     var assoc_url = res.request._redirectable._currentUrl; 
-    //c heck if acm or ieee or springer is in the url
+    //check if acm or ieee or springer is in the url
     if(assoc_url.includes("acm"))
     {
         scraped.Association = "ACM";
@@ -23,7 +23,7 @@ async function scrapeAssociation(DOI)
     else if(assoc_url.includes("ieee"))
     {
         scraped.Association = "IEEE";
-    }
+    } 
     else if(assoc_url.includes("springer"))
     {
         scraped.Association = "Springer";
@@ -42,9 +42,15 @@ async function scrapeAssociation(DOI)
     return scraped;
 }
 //use scopus api or construct the link to the journal.conf again
+
 async function scrapeJournal()
 {
 
+    // h index with google scholar id 
+    //https://scholar.google.com/citations?hl=en&user=7B9tEkcAAAAJ&view_op=list_works&sortby=pubdate
+    //sjr and snip with title
+    //or collect from CSV file
+    //https://api.elsevier.com/content/serial/title?issn=0309-0566&field=SJR,SNIP&view=STANDARD&apikey=4cc20e5ed48e63f2061a88a4154566bf
 }
 
 
