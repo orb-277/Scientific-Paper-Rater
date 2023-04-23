@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography } from '@material-ui/core';
+import { Card, CardContent, FormLabel, Typography } from '@material-ui/core';
 import { Field, Form, Formik } from 'formik';
 import { CheckboxWithLabel, TextField } from 'formik-material-ui';
 import { useState } from 'react';
@@ -41,6 +41,8 @@ export default function Multiform() {
       </Card>
     )
   }
+
+
   
 const StepOne = (props) => {
   const handleSubmit = (values,helpers) => {
@@ -64,7 +66,7 @@ const StepOne = (props) => {
   )
 }
 
-const StepTwo = () => {
+const StepTwo = (props) => {
   const handleSubmit = (values,helpers) => {
     props.next(values,true);
 
@@ -74,10 +76,11 @@ const StepTwo = () => {
       initialValues={props.data}
       onSubmit= {handleSubmit}    
     >
-      {() => (
+      {(formProps) => (
         <Form>
+          <FormLabel>Journal</FormLabel>
           <Field name = "Journal" component={TextField} label="Journal" />
-          <button type = "button" >Back</button>
+          <button type = "button" onClick={() => props.prev(formProps.values)}>Back</button>
           <button type="submit">Next</button>
 
         </Form>
