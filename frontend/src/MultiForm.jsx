@@ -1,14 +1,20 @@
-import { Card, CardContent, FormLabel, Typography } from '@material-ui/core';
-import { Field, Form, Formik } from 'formik';
-import { CheckboxWithLabel, TextField } from 'formik-material-ui';
+import { Card, CardContent, FormLabel, MenuItem, Typography } from '@material-ui/core';
+import { selectClasses } from '@mui/material';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { CheckboxWithLabel, Select, TextField } from 'formik-material-ui';
 import { useState } from 'react';
+
+import * as Yup from 'yup';
+
 
 export default function Multiform() {
   const [data,setData] = useState({
     doi:'',
     association:'',
     Journal:'',
-    Conference:''
+    Conference:'',
+    Type:'Journal'
+    
 
   })
   const [currentStep,setCurrentStep] = useState(0);
@@ -42,7 +48,10 @@ export default function Multiform() {
     )
   }
 
-
+const stepOneValidationSchema = Yup.object({
+  doi: Yup.string().required(),
+  association: Yup.string().required()
+})
   
 const StepOne = (props) => {
   const handleSubmit = (values,helpers) => {
@@ -53,10 +62,12 @@ const StepOne = (props) => {
     <Formik
       initialValues={props.data}
       onSubmit= {handleSubmit}
+      validationSchema={stepOneValidationSchema}
     >
       {() => (
         <Form>
           <Field name = "doi" component={TextField} label="doi"/>
+          
           <Field name = "association" component={TextField} label="association"/>
           <button type="submit">Next</button>
 
@@ -67,6 +78,14 @@ const StepOne = (props) => {
 }
 
 const StepTwo = (props) => {
+  const [choice,setChoice] = useState(props.data['Type']);
+  const choiceChange = (e) => {
+    setChoice(e.target.value);
+    console.log(choice);
+
+    
+
+}
   const handleSubmit = (values,helpers) => {
     props.next(values,true);
 
@@ -78,10 +97,29 @@ const StepTwo = (props) => {
     >
       {(formProps) => (
         <Form>
-          <FormLabel>Journal</FormLabel>
-          <Field name = "Journal" component={TextField} label="Journal" />
+
+          <Field name="Type" label="Type" component={Select} onChange={choiceChange}>
+          <MenuItem value={'Journal'}>Journal</MenuItem>
+          <MenuItem value={'Conference'}>Conference</MenuItem>
+
+          </Field>
+          {choice === 'Journal' ? (
+          <Field name = "JournalName" component={TextField} label="JournalName" />            
+          ):(
+          <div>
+          <Field name = "ConferenceName" component={TextField} label="ConferenceName" />
+          <Field name="ConferenceType" label="Type" component={Select}>
+          <MenuItem value={'National'}>National</MenuItem>
+          <MenuItem value={'International'}>International</MenuItem>
+
+          </Field>
+          </div>
+          )
+          }
+          
           <button type = "button" onClick={() => props.prev(formProps.values)}>Back</button>
-          <button type="submit">Next</button>
+          <button type= "submit">Submit</button>
+          
 
         </Form>
       )}
