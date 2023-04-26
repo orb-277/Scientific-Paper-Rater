@@ -36,7 +36,7 @@ const Assoc = (props) => {
 
   return(
     <>
-    <input {...props} {...field} />
+    <Field {...props} {...field} component={TextField}/>
     {!!meta.touched && !!meta.error && <div>{meta.error}</div>}
 
     </>
