@@ -36,7 +36,7 @@ const Assoc = (props) => {
 
   return(
     <>
-    <Field {...props} {...field} component={TextField}/>
+    <Field {...props} {...field} component={TextField} />
     {!!meta.touched && !!meta.error && <div>{meta.error}</div>}
 
     </>
@@ -104,9 +104,9 @@ const StepOne = (props) => {
       {() => (
         <Form>
           <Field name = "doi" component={TextField} label="doi"/>
-          <Assoc name = "assoc" component={TextField}/>
+          <Assoc name = "assoc" component={TextField} label="association"/>
           
-          <Field name = "association" component={TextField} label="association"/>
+          
           <button type="submit">Next</button>
 
         </Form>
