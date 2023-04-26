@@ -1,10 +1,47 @@
 import { Card, CardContent, FormLabel, MenuItem, Typography } from '@material-ui/core';
 import { selectClasses } from '@mui/material';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { ErrorMessage, Field, Form, Formik ,useField,useFormikContext} from 'formik';
 import { CheckboxWithLabel, Select, TextField } from 'formik-material-ui';
+import { useEffect } from 'react';
 import { useState } from 'react';
 
 import * as Yup from 'yup';
+
+async function fetchAssoc(a){
+  await new Promise((r) => setTimeout(r,500));
+  return `test: ${a}`;
+}
+
+const Assoc = (props) => {
+  const{
+    values: {doi},
+    setFieldValue,
+
+  } = useFormikContext();
+  const [field,meta] = useField(props);
+  useEffect(() => {
+    let isCurrent = true;
+    if (doi.trim() !== ''){
+      fetchAssoc(doi).then((assoc) => {
+        if(!!isCurrent){
+          setFieldValue(props.name,assoc)
+        }
+
+      });
+    }
+    return () => {
+      isCurrent = false;
+    };
+  }),[doi,setFieldValue,props.name];
+
+  return(
+    <>
+    <input {...props} {...field} />
+    {!!meta.touched && !!meta.error && <div>{meta.error}</div>}
+
+    </>
+  )
+}
 
 
 export default function Multiform() {
@@ -67,6 +104,7 @@ const StepOne = (props) => {
       {() => (
         <Form>
           <Field name = "doi" component={TextField} label="doi"/>
+          <Assoc name = "assoc" component={TextField}/>
           
           <Field name = "association" component={TextField} label="association"/>
           <button type="submit">Next</button>
