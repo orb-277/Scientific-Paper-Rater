@@ -1,14 +1,57 @@
-import { Card, CardContent, Typography } from '@material-ui/core';
-import { Field, Form, Formik } from 'formik';
-import { CheckboxWithLabel, TextField } from 'formik-material-ui';
+import { Card, CardContent, FormLabel, MenuItem, Typography } from '@material-ui/core';
+import { selectClasses } from '@mui/material';
+import { ErrorMessage, Field, Form, Formik ,useField,useFormikContext} from 'formik';
+import { CheckboxWithLabel, Select, TextField } from 'formik-material-ui';
+import { useEffect } from 'react';
 import { useState } from 'react';
+
+import * as Yup from 'yup';
+
+async function fetchAssoc(a){
+  await new Promise((r) => setTimeout(r,500));
+  return `test: ${a}`;
+}
+
+const Assoc = (props) => {
+  const{
+    values: {doi},
+    setFieldValue,
+
+  } = useFormikContext();
+  const [field,meta] = useField(props);
+  useEffect(() => {
+    let isCurrent = true;
+    if (doi.trim() !== ''){
+      fetchAssoc(doi).then((assoc) => {
+        if(!!isCurrent){
+          setFieldValue(props.name,assoc)
+        }
+
+      });
+    }
+    return () => {
+      isCurrent = false;
+    };
+  }),[doi,setFieldValue,props.name];
+
+  return(
+    <>
+    <Field {...props} {...field} component={TextField} />
+    {!!meta.touched && !!meta.error && <div>{meta.error}</div>}
+
+    </>
+  )
+}
+
 
 export default function Multiform() {
   const [data,setData] = useState({
     doi:'',
     association:'',
     Journal:'',
-    Conference:''
+    Conference:'',
+    Type:'Journal'
+    
 
   })
   const [currentStep,setCurrentStep] = useState(0);
@@ -41,6 +84,11 @@ export default function Multiform() {
       </Card>
     )
   }
+
+const stepOneValidationSchema = Yup.object({
+  doi: Yup.string().required(),
+  association: Yup.string().required()
+})
   
 const StepOne = (props) => {
   const handleSubmit = (values,helpers) => {
@@ -51,11 +99,14 @@ const StepOne = (props) => {
     <Formik
       initialValues={props.data}
       onSubmit= {handleSubmit}
+      validationSchema={stepOneValidationSchema}
     >
       {() => (
         <Form>
           <Field name = "doi" component={TextField} label="doi"/>
-          <Field name = "association" component={TextField} label="association"/>
+          <Assoc name = "assoc" component={TextField} label="association"/>
+          
+          
           <button type="submit">Next</button>
 
         </Form>
@@ -64,7 +115,15 @@ const StepOne = (props) => {
   )
 }
 
-const StepTwo = () => {
+const StepTwo = (props) => {
+  const [choice,setChoice] = useState(props.data['Type']);
+  const choiceChange = (e) => {
+    setChoice(e.target.value);
+    console.log(choice);
+
+    
+
+}
   const handleSubmit = (values,helpers) => {
     props.next(values,true);
 
@@ -74,11 +133,31 @@ const StepTwo = () => {
       initialValues={props.data}
       onSubmit= {handleSubmit}    
     >
-      {() => (
+      {(formProps) => (
         <Form>
-          <Field name = "Journal" component={TextField} label="Journal" />
-          <button type = "button" >Back</button>
-          <button type="submit">Next</button>
+
+          <Field name="Type" label="Type" component={Select} onChange={choiceChange}>
+          <MenuItem value={'Journal'}>Journal</MenuItem>
+          <MenuItem value={'Conference'}>Conference</MenuItem>
+
+          </Field>
+          {choice === 'Journal' ? (
+          <Field name = "JournalName" component={TextField} label="JournalName" />            
+          ):(
+          <div>
+          <Field name = "ConferenceName" component={TextField} label="ConferenceName" />
+          <Field name="ConferenceType" label="Type" component={Select}>
+          <MenuItem value={'National'}>National</MenuItem>
+          <MenuItem value={'International'}>International</MenuItem>
+
+          </Field>
+          </div>
+          )
+          }
+          
+          <button type = "button" onClick={() => props.prev(formProps.values)}>Back</button>
+          <button type= "submit">Submit</button>
+          
 
         </Form>
       )}
