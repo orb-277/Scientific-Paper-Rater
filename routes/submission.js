@@ -40,8 +40,6 @@ async function scrapeAssociation(DOI) {
 //use scopus api or construct the link to the journal.conf again
 
 async function scrapeInfo(author_name, title) {
-
-
     var author_name_search_list = `https://scholar.google.com/citations?view_op=search_authors&mauthors=${author_name}`
     var res = await axios.get(author_name_search_list);
     var $ = cheerio.load(res.data);

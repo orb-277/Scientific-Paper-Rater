@@ -19,7 +19,15 @@ const userSchema = new mongoose.Schema({
     total_submissions: {
         type: Number,
         required: false
-    }
+    },
+    author_h_index: {
+        type: Number,
+        required: false
+    },
+    privilege_level: {
+        type : Number,
+        required: true
+    },
 });
 
 
