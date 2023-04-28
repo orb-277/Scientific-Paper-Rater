@@ -1,13 +1,20 @@
 const mongoose = require('mongoose');
-const axios = require('axios');
-const formSchema = new mongoose.Schema({
+const paperSchema = new mongoose.Schema({
     author_user_id : {
         type: String,
         required: true
     },
-    conference : {
+    type : {
         type: String,
         required: true
+    }, // journal or conference
+    association : {
+        type: String,
+        required: false
+    }, 
+    conference : {
+        type: String,
+        required: false
     },
     paper_title: {
         type: String,
@@ -15,30 +22,30 @@ const formSchema = new mongoose.Schema({
     },
     isInternationalConf: {
         type: Boolean,
-        required: true
+        required: false
+    },
+    H_INDEX :{
+        type: Number,
+        required: false
     },
     SJR_INDEX : {
         type: Number,
-        required: true
+        required: false
     },
     isIndexed: {
         type: Boolean,
-        required: true
-    },
-    isPeerReviewed: {
-        type: Boolean,
-        required: true
+        required: false
     },
     Paper_Score : {
         type: Number,
-        required: true
+        required: false
     }
 });
 
-formSchema.methods.accumulate_score = async function() {
+paperSchema.methods.accumulate_score = async function() {
     //use axios here and mine the params from the api
 }
-formSchema.methods.update_score  = async function() {
+paperSchema.methods.update_score  = async function() {
     try{
         let score = 0;
         if(this.isInternationalConf){
@@ -61,5 +68,5 @@ formSchema.methods.update_score  = async function() {
     }
 }
 
-const Form  = mongoose.model('FORM', formSchema);
-module.exports = Form ;
+const Paper  = mongoose.model('PAPER', paperSchema);
+module.exports = Paper ;
