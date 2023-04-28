@@ -36,7 +36,7 @@ const Assoc = (props) => {
 
   return(
     <>
-    <Field {...props} {...field} component={TextField} />
+    <Field {...props} {...field} />
     {!!meta.touched && !!meta.error && <div>{meta.error}</div>}
 
     </>
@@ -87,8 +87,10 @@ export default function Multiform() {
 
 const stepOneValidationSchema = Yup.object({
   doi: Yup.string().required(),
-  association: Yup.string().required()
+  assoc: Yup.string().required()
 })
+
+
   
 const StepOne = (props) => {
   const handleSubmit = (values,helpers) => {
@@ -104,7 +106,7 @@ const StepOne = (props) => {
       {() => (
         <Form>
           <Field name = "doi" component={TextField} label="doi"/>
-          <Assoc name = "assoc" component={TextField} label="association"/>
+          <Assoc name = "assoc" component={TextField} />
           
           
           <button type="submit">Next</button>
