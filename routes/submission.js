@@ -151,7 +151,7 @@ router.get('/association', auth, async (req, res) => {
     res.send(assoc);
 });
 
-router.post('/submit',  async (req, res) => {
+router.post('/submit', auth,  async (req, res) => {
     // manual test set up 
     // req.body = {
     //     "association": "ACM",
