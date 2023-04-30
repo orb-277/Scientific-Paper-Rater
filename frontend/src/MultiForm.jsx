@@ -105,7 +105,13 @@ const StepOne = (props) => {
     >
       {() => (
         <Form>
+          
+          <h1>Submission</h1>
+          <hr></hr>
+          <FormLabel>Doi :</FormLabel>
           <Field name = "doi" component={TextField} label="doi"/>
+          <br></br>
+          <FormLabel>Assoc :</FormLabel>
           <Assoc name = "assoc" component={TextField} />
           
           
