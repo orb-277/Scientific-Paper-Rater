@@ -2,17 +2,22 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 
 const auth = async (req, res, next) => {
-    try{
-        const token = req.cookies.jwt;
+    try {
+      const authHeader = req.headers.authorization;
+      if (authHeader) {
+        const token = authHeader.split(' ')[1];
         const verifiedUser = jwt.verify(token, process.env.SECRET_KEY);
-        console.log(verifiedUser);
-        const user = await User.findOne({_id:verifiedUser._id});
-        req.user = user ;
-        next(); 
-    }catch(err){
-        console.log( err);
-        res.status(401).send({message: "Missing Authorization/ Auth token expired"});
-        next(); 
+        const user = await User.findOne({_id: verifiedUser._id});
+        req.user = user;
+        next();
+      } else {
+        res.status(401).send({message: "Missing Authorization header"});
+      }
+    } catch(err) {
+      console.error(err);
+      res.status(401).send({message: "Invalid Authorization header"});
     }
-}
+  };
+
+module.exports = auth;
 

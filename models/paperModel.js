@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const paperSchema = new mongoose.Schema({
+    //known params 
     author_user_id : {
         type: String,
         required: true
@@ -8,65 +9,60 @@ const paperSchema = new mongoose.Schema({
         type: String,
         required: true
     }, // journal or conference
-    association : {
+    journal_conf_name : {
         type: String,
-        required: false
+        required: true
     }, 
-    conference : {
-        type: String,
-        required: false
-    },
-    paper_title: {
+    title: {
         type: String,
         required: true
     },
-    isInternationalConf: {
-        type: Boolean,
+    DOI : {
+        type: String,
+        required: true
+    }, 
+    // isInternationalConf: {
+    //     type: Boolean,
+    //     required: false
+    // },
+
+
+    //unknown params
+
+    association : {
+        type: String,
+        default : "Unknown",
         required: false
-    },
+    }, 
     H_INDEX :{
         type: Number,
+        default : 0,
         required: false
     },
     SJR_INDEX : {
         type: Number,
+        default : 0,
         required: false
     },
     isIndexed: {
         type: Boolean,
+        default : false ,
         required: false
     },
     Paper_Score : {
         type: Number,
+        default : 0, 
+        required: false
+    },
+    auth_h_index :
+    {
+        type: Number,
+        //set default value to -1 
+        default: -1,
         required: false
     }
 });
 
-paperSchema.methods.accumulate_score = async function() {
-    //use axios here and mine the params from the api
-}
-paperSchema.methods.update_score  = async function() {
-    try{
-        let score = 0;
-        if(this.isInternationalConf){
-            score += 5;
-        }
-        if(this.isIndexed){
-            score += 5;
-        }
-        if(this.isPeerReviewed){
-            score += 5;
-        }
-        if(this.SJR_INDEX > 0.5){
-            score += 5;
-        }
-        this.Paper_Score = score;
-        await this.save();
-        return score;
-    }catch(err){
-        console.log(err);
-    }
-}
 
 const Paper  = mongoose.model('PAPER', paperSchema);
 module.exports = Paper ;
