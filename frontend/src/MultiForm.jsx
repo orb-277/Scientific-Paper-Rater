@@ -37,7 +37,7 @@ const Assoc = (props) => {
   return(
     <>
     <Field {...props} {...field} />
-    {!!meta.touched && !!meta.error && <div>{meta.error}</div>}
+    
 
     </>
   )
@@ -76,7 +76,7 @@ export default function Multiform() {
                 <StepTwo prev={handlePrevStep} next={handleNextStep} data={data}/>]
 
     return (
-      <Card>
+      <Card style={{width:'500px'}}>
         <CardContent>
 
            {steps[currentStep]}
@@ -106,13 +106,16 @@ const StepOne = (props) => {
       {() => (
         <Form>
           
-          <h1>Submission</h1>
-          <hr></hr>
+
+          <div>
+          
           <FormLabel>Doi :</FormLabel>
-          <Field name = "doi" component={TextField} label="doi"/>
-          <br></br>
+          <Field name = "doi" component={TextField}/>
+          </div>
+          <div>
           <FormLabel>Assoc :</FormLabel>
           <Assoc name = "assoc" component={TextField} />
+          </div>
           
           
           <button type="submit">Next</button>
@@ -143,23 +146,32 @@ const StepTwo = (props) => {
     >
       {(formProps) => (
         <Form>
-
+          <div>
+          <FormLabel>Type :</FormLabel>
           <Field name="Type" label="Type" component={Select} onChange={choiceChange}>
           <MenuItem value={'Journal'}>Journal</MenuItem>
           <MenuItem value={'Conference'}>Conference</MenuItem>
 
           </Field>
+          </div>
           {choice === 'Journal' ? (
           <Field name = "JournalName" component={TextField} label="JournalName" />            
           ):(
           <div>
+          <div>
+            
           <Field name = "ConferenceName" component={TextField} label="ConferenceName" />
+
+          </div>
+          <div>
           <Field name="ConferenceType" label="Type" component={Select}>
           <MenuItem value={'National'}>National</MenuItem>
           <MenuItem value={'International'}>International</MenuItem>
 
           </Field>
           </div>
+          </div>
+
           )
           }
           

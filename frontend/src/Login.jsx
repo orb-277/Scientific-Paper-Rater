@@ -21,8 +21,10 @@ export default function Login() {
   
     return (
         
-        <Card>
+        <Card style={{width:'500px'}}>
+            
           <CardContent>
+          <h1>Login</h1>
             
             <Formik
                 initialValues={{Username:"",Password:""}}
@@ -30,13 +32,18 @@ export default function Login() {
                 validationSchema={validationSchema}
             >
             {() => (
-                <Form>
+                <Form >
+                <div>
                 <Field name = "Username" component={TextField} label="Username"/>
+                </div>
+                <div>
                 <Field name = "Password" component={TextField} label="Password" type="password"/>
+                </div>
 
                 
                 
                 <button type="submit">Submit</button>
+                
 
                 </Form>
             )}
