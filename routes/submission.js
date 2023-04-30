@@ -7,10 +7,11 @@ const csv = require('csv-parser');
 const fs = require('fs');
 const auth = require('../middleware/auth');
 const Paper = require('../models/paperModel');
+const User = require('../models/userModel');
 const { promisify } = require('util');
+const jwt = require('jsonwebtoken');
+require('dotenv').config({ path: require('find-config')('secret.env') })
 
-
-const readFile = promisify(fs.readFile);
 
 
 /**
@@ -54,6 +55,7 @@ async function scrapeInfo(author_name, title) {
     //iet doi example = https://doi.org/10.1049/cp.2019.0005
     //wiley doi example = https://doi.org/10.1002/asi.23983
     //TODO: doesn't work for wiley yet 
+    try{
     var scraped_info = {};
     var author_name_search_list = `https://scholar.google.com/citations?view_op=search_authors&mauthors=${author_name}`
     var res = await axios.get(author_name_search_list);
@@ -70,25 +72,29 @@ async function scrapeInfo(author_name, title) {
     else {
         scraped_info.auth_h_index = -1;
     }
+    }catch(err){
+        //user does not have google scholar profile
+        scraped_info.auth_h_index = -1;
+    }
+    
     //console.log(h_index);
     const matchingRows = [];
 
     const stream = fs.createReadStream('data\\scimago_data_2021.csv')
-    .pipe(csv({ separator: ';' }));
+        .pipe(csv({ separator: ';' }));
 
     for await (const row of stream) {
         if (row['Title'] === title) {
             matchingRows.push(row);
         }
     }
-    if(matchingRows.length > 0){
+    if (matchingRows.length > 0) {
         var scrapedRow = matchingRows[0];
         scraped_info.isIndexed = true;
         scraped_info.SJR_INDEX = parseInt(scrapedRow['SJR']);
         scraped_info.H_INDEX = parseInt(scrapedRow['H index']);
     }
-    else
-    {
+    else {
         scraped_info.isIndexed = false;
         scraped_info.SJR_INDEX = -1;
         scraped_info.H_INDEX = -1;
@@ -144,14 +150,12 @@ async function generateMarks(paper) {
     }
     return paperScore;
 }
-
-
 router.get('/association', auth, async (req, res) => {
     const assoc = await scrapeAssociation(req.body.doi);
-    res.send(assoc);
+    res.status(200).json(assoc);
 });
 
-router.post('/submit', auth,  async (req, res) => {
+router.post('/submit', auth, async (req, res) => {
     // manual test set up 
     // req.body = {
     //     "association": "ACM",
@@ -162,37 +166,64 @@ router.post('/submit', auth,  async (req, res) => {
     //     "type": "Journal",
     //     "DOI": "https://doi.org/10.1145/1741906.1742236"
     // }
-    var paper = {};
-    var paper_info = req.body;
-    paper.association = paper_info.association;
-    paper.author_name = paper_info.author_name;
-    paper.author_user_id = paper_info.auth_user_id;
-    paper.title = paper_info.title;
-    paper.journal_conf_name = paper_info.journal_conf_name;
-    paper.type = paper_info.type;
-    paper.DOI = paper_info.DOI;
+    try {
+        var paper = {};
+
+        var paper_info = req.body;
+        
+        var authHeader = req.headers.authorization;
+        const token = authHeader.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
+        const user_id = decoded._id;
+        //fetch user using user_id
+        const user = await User.findById(user_id);
+        paper.association = paper_info.association;
+        paper.author_name = user.username;
+        paper.author_user_id = user_id;
+        paper.title = paper_info.title;
+        paper.journal_conf_name = paper_info.journal_conf_name;
+        paper.type = paper_info.type;
+        paper.DOI = paper_info.DOI;
 
 
 
-    //paper.isInternationalConf = paper_info.isInternationalConf;
-    //var x = await scrapeAssociation("https://doi.org/10.1007/978-3-030-32245-8_1");
+        //paper.isInternationalConf = paper_info.isInternationalConf;
+        //var x = await scrapeAssociation("https://doi.org/10.1007/978-3-030-32245-8_1");
 
 
 
-    var scrape = await scrapeInfo(paper.author_name, paper.journal_conf_name);
-    paper.isIndexed = scrape.isIndexed;
-    if(paper.isIndexed)
-    {
-        paper.SJR_INDEX = scrape.SJR_INDEX;
-        paper.H_INDEX = scrape.H_INDEX;
+        var scrape = await scrapeInfo(paper.author_name, paper.journal_conf_name);
+        paper.isIndexed = scrape.isIndexed;
+        if (paper.isIndexed) {
+            paper.SJR_INDEX = scrape.SJR_INDEX;
+            paper.H_INDEX = scrape.H_INDEX;
+        }
+        paper.auth_h_index = scrape.auth_h_index;
+        var paperScore = await generateMarks(paper);
+        paper.Paper_Score = paperScore;
+        
+        //save the paper to the database
+        var newPaper = new Paper(paper);
+       var success = await newPaper.save();
+        
+       if (success) {
+            //update user with user_id 
+            user.author_h_index = scrape.auth_h_index;
+            user.total_submissions += 1;
+            await user.save(); 
+            res.status(200).json({message: "Paper submitted successfully", paperScore: paperScore});
+        }
+        else{
+            res.status(401).json({message: "Paper submission failed please try again later"})
+        }
+        //res.send();   
+
+    } catch (e) {
+        console.log(e);
+        res.status(500).send("Internal Server Error");
     }
-    paper.auth_h_index = scrape.auth_h_index;
-    var paperScore = await generateMarks(paper);
-    paper.paperScore = paperScore;
-    //save the paper to the database
-    var newPaper = new Paper(paper);
-    var success = await newPaper.save();
-    //res.send();
+
+
 
 });
 

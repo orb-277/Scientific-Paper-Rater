@@ -21,12 +21,6 @@ const paperSchema = new mongoose.Schema({
         type: String,
         required: true
     }, 
-    // isInternationalConf: {
-    //     type: Boolean,
-    //     required: false
-    // },
-
-
     //unknown params
 
     association : {

@@ -4,7 +4,7 @@ require("dotenv").config();
 const app = express();
 const port = 5050;
 const auth = require('./middleware/auth.js');
-
+require('./db/connections');
 
 app.use(cors());
 app.use(express.json());
