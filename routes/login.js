@@ -1,5 +1,5 @@
 const express = require('express');
-const User = require('./models/user');
+const User = require('../models/userModel');
 const router = express.Router();
 
 // Login route
@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
 
     // Generate auth token and send it to client
     const token = await user.generateAuthToken();
-    res.json({ token });
+    res.json({ auth_token : token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
