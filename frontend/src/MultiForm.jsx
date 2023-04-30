@@ -76,7 +76,7 @@ export default function Multiform() {
                 <StepTwo prev={handlePrevStep} next={handleNextStep} data={data}/>]
 
     return (
-      <Card style={{width:'500px'}}>
+      <Card style={{width:'700px'}}>
         <CardContent>
 
            {steps[currentStep]}
@@ -105,15 +105,19 @@ const StepOne = (props) => {
     >
       {() => (
         <Form>
+          <h1>Step1</h1>
           
 
           <div>
           
-          <FormLabel>Doi :</FormLabel>
+          <label>DOI:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+
+
           <Field name = "doi" component={TextField}/>
           </div>
           <div>
-          <FormLabel>Assoc :</FormLabel>
+          <label>Association: </label>
+          
           <Assoc name = "assoc" component={TextField} />
           </div>
           
@@ -146,8 +150,9 @@ const StepTwo = (props) => {
     >
       {(formProps) => (
         <Form>
+          <h1>Step2</h1>
           <div>
-          <FormLabel>Type :</FormLabel>
+          
           <Field name="Type" label="Type" component={Select} onChange={choiceChange}>
           <MenuItem value={'Journal'}>Journal</MenuItem>
           <MenuItem value={'Conference'}>Conference</MenuItem>
@@ -164,7 +169,7 @@ const StepTwo = (props) => {
 
           </div>
           <div>
-          <Field name="ConferenceType" label="Type" component={Select}>
+          <Field name="ConferenceType" label="ConferenceType" component={Select} width={'100%'}>
           <MenuItem value={'National'}>National</MenuItem>
           <MenuItem value={'International'}>International</MenuItem>
 
@@ -175,8 +180,11 @@ const StepTwo = (props) => {
           )
           }
           
-          <button type = "button" onClick={() => props.prev(formProps.values)}>Back</button>
-          <button type= "submit">Submit</button>
+          <div>
+          <button type = "button" onClick={() => props.prev(formProps.values)} style={{float:'left'}}>Back</button>
+          <button type= "submit" style={{float:'right'}}>Submit</button>
+          <br></br>
+          </div>
           
 
         </Form>
