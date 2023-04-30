@@ -28,6 +28,8 @@ const Assoc = (props) => {
         }
 
       });
+      // fetch("http://localhost:5050")
+      // .then
     }
     return () => {
       isCurrent = false;

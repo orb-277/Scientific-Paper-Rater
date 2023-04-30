@@ -3,7 +3,7 @@ const User = require('../models/userModel');
 const router = express.Router();
 
 // Login route
-router.post('/', async (req, res) => {
+router.post('/login', async (req, res) => {
   try {
     // Authenticate user credentials
     const user = await User.findOne({ username: req.body.username });
