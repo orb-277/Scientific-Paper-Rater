@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 
 
 //the user can view his past submissions 
+//tested
 router.get('/papers', auth, async (req, res) => {
     try {
         var authHeader = req.headers.authorization;
