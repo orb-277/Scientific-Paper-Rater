@@ -5,9 +5,10 @@ const router = express.Router();
 const {authAdmin} = require('../middleware/auth');
 
 //tested
+//id in list for manipulations * 
 router.get('/users', authAdmin,async (req, res) => {
     try {
-        const users = await User.find({}).select('-password -privilege_level -id').limit(10);
+        const users = await User.find({}).select('-password -privilege_level').limit(10);
         res.json(users);
     } catch (error) {
         console.error(error);
@@ -18,7 +19,7 @@ router.get('/users', authAdmin,async (req, res) => {
 router.get('/users/search',authAdmin , async (req, res) => {
     try {
         const username = req.body.username;
-        const users = await User.find({ username: { $regex: username, $options: 'i' } }).select('-password -privilege_level -id');
+        const users = await User.find({ username: { $regex: username, $options: 'i' } }).select('-password -privilege_level');
         res.json(users);
     } catch (error) {
         console.error(error);
@@ -52,9 +53,7 @@ router.get('/papers/search', authAdmin, async (req, res) => {
 //tested 
 router.get('/user/papers', authAdmin, async (req, res) => {
     try {
-        const username = req.body.username;
-        const user= await User.findOne({ username: username });
-        const user_id = user._id;
+        const user_id = req.body.user_id;
         const papers = await Paper.find({ author_user_id: user_id });
         res.json(papers);
     } catch (error) {
@@ -62,4 +61,36 @@ router.get('/user/papers', authAdmin, async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+
+// api for deletin user with user_id 
+//tested
+router.delete('/user/delete', authAdmin, async (req, res) => {
+    try {
+        const user_id = req.body.user_id;
+        const user = await User.findByIdAndDelete(user_id);
+        res.status(201).json(user);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+//api for deleting paper with paper_id
+//tested
+router.delete('/paper/delete', authAdmin, async (req, res) => {
+    try {
+        const paper_id = req.body.paper_id;
+        const paper = await Paper.findByIdAndDelete(paper_id);
+        res.status(201).json(paper);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+        
+
+
+
 module.exports = router; 
