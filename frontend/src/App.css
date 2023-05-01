@@ -21,8 +21,10 @@ html, body, #root, .wrapper {
   background-image: url('assets/bg-img2.jpg');
   
 }
-#loginwrapper{
-  margin:auto;
+
+#container{
+  background-image: url('assets/bg-img2.jpg');
+  flex-direction:column;
 
 }
 
