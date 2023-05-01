@@ -21,9 +21,22 @@ require('dotenv').config({ path: require('find-config')('secret.env') })
  */
 
 async function scrapeAssociation(DOI) {
+    
+    
+    console.log("scraping association")
+    console.log(DOI)
+    if(DOI == undefined || DOI == null || DOI == ""){
+        return "Unknown";
+    }
     var scraped = {};
-    var res = await axios.get(DOI);
-    var assoc_url = res.request._redirectable._currentUrl;
+    try{
+        var res = await axios.get(DOI);
+        var assoc_url = res.request._redirectable._currentUrl;
+    }catch(error){
+        return "Unknown";
+
+    }
+   
     //check if acm or ieee or springer is in the url
     if (assoc_url.includes("acm")) {
         scraped.Association = "ACM";
@@ -151,7 +164,7 @@ async function generateMarks(paper) {
     return paperScore;
 }
 router.get('/association', auth, async (req, res) => {
-    const assoc = await scrapeAssociation(req.body.doi);
+    const assoc = await scrapeAssociation(req.query.doi);
     res.status(200).json(assoc);
 });
 

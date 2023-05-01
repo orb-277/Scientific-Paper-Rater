@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 require('dotenv').config({ path: require('find-config')('secret.env') })
 const auth = async (req, res, next) => {
+  console.log("Auth ran "); 
     try {
       const authHeader = req.headers.authorization; //send in header!! 
       if (authHeader) {
@@ -22,6 +23,7 @@ const auth = async (req, res, next) => {
 
 const authAdmin = async (req, res, next) => { 
     try {
+      console.log("Auth admin ran ") ; 
         const authHeader = req.headers.authorization; //send in header!!
         if (authHeader) {
             const token = authHeader.split(' ')[1];
