@@ -1,8 +1,8 @@
 import './App.css'
 //import { Card, CardContent} from '@material-ui/core';
-import { NavBar } from './NavBar';
+import {NavBar}  from './NavBar';
 
-export default function UserView(){
+export default function  UserView(){
     return (
         <div id='container'>
         <NavBar/>
