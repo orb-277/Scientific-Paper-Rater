@@ -5,9 +5,7 @@ import { ErrorMessage, Field, Form, Formik ,useField,useFormikContext} from 'for
 import { CheckboxWithLabel, Select, TextField } from 'formik-material-ui';
 import { useEffect } from 'react';
 import { useState,useContext } from 'react';
-import PersonIcon from '@mui/icons-material/Person';
 
-import SvgIcon from '@mui/material/SvgIcon';
 import {Link} from 'react-router-dom'
 import { AuthContext as AuthContext } from './context/AuthProvider';
 
@@ -40,8 +38,8 @@ export default function Login() {
               console.log(response);
               const accesstoken = response.data.auth_token;
               console.log(accesstoken);
-              setAuth({accesstoken});
-              console.log(setAuth.auth);
+              localStorage.setItem('token',accesstoken);
+
             })
             .catch(function (response) {
               //handle error

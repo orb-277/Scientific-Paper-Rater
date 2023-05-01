@@ -24,6 +24,8 @@ const Assoc = (props) => {
 
   } = useFormikContext();
   const [field,meta] = useField(props);
+  const token = localStorage.getItem('token');
+  console.log(token);
   useEffect(() => {
     let isCurrent = true;
     if (doi.trim() !== ''){
@@ -31,7 +33,7 @@ const Assoc = (props) => {
         method: "get",
         url: ASSOC_URL,
         data: {doi:doi},
-        header: {'authorization':setAuth.auth_token}
+        header: {'authorization':`Bearer ${token}`}
         
       })
         // .then(function (response) {
