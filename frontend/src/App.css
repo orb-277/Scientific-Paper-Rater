@@ -9,11 +9,22 @@
 
 html, body, #root, .wrapper {
   height:100%;
+  width:100vw;
 }
 
 #logincontainer{
   margin:auto;
   min-height:100vh;
+  background-color:blue;
+  display:flex;
+  flex-direction:column;
+  justify-content: center;
+  background-image: url('/home/omkar/Scientific-Paper-Rater/frontend/src/assets/bg-img2.jpg');
+  
+}
+#loginwrapper{
+  margin:auto;
+
 }
 
 
