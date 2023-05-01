@@ -8,11 +8,13 @@ router.post('/login', async (req, res) => {
     // Authenticate user credentials
     const user = await User.findOne({ username: req.body.username });
     if (!user) {
+      console.log('2');
       return res.status(401).json({ error: 'user not found' });
     }
 
     const isValidPassword = await user.checkPassword(req.body.password);
     if (!isValidPassword) {
+      console.log('1');
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 

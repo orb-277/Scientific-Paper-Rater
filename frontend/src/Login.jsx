@@ -16,37 +16,57 @@ export default function Login() {
 
     const validationSchema = Yup.object({
         username: Yup.string().required(),
-        email: Yup.string().required(),
         password: Yup.string().required().min(8,"Password must be at least 8 characters")
     });
 
     const handleSubmit = async (values,helpers) => {
         alert(JSON.stringify(values));
         
-        const a = JSON.stringify(values["username"])
-        const b = JSON.stringify(values["password"])
+        // const a = JSON.stringify(values["username"])
+        // const b = JSON.stringify(values["password"])
+        // var bodyFormData = new FormData();
+        // bodyFormData.append('username', a);
+        // bodyFormData.append('password', b);
+
+
+        axios({
+            method: "post",
+            url: "myurl",
+            data: values,
+            
+          })
+            .then(function (response) {
+              //handle success
+              console.log(response);
+            })
+            .catch(function (response) {
+              //handle error
+              console.log(response);
+            });
         
-        try{
-            const res = await axios.post(LOGIN_URL,JSON.stringify({username:a,email:values['email'],password:b}),
-                {
-                    headers: {'Content-Type': 'application/json'},
+        // try{
+
+        //     const res = await axios.post(LOGIN_URL,JSON.stringify({username:a,password:b}),
+        //         {
+        //             headers: {'Content-Type': 'application/json'},
                     
-                }
+        //         }
             
-            );
+        //     )
             
-            console.log(JSON.stringify(res));
-            alert(JSON.stringify(res['error']))
+            
+        //     //console.log(JSON.stringify(res));
+        //     //alert(JSON.stringify(res));
 
 
             
 
-        }
-        catch(e){
-            alert(e);
-            console.log(e);
+        // }
+        // catch(e){
+        //     alert(e);
+        //     console.log(e);
 
-        }
+        // }
     
     }
 
@@ -59,7 +79,7 @@ export default function Login() {
           <h1>Login</h1>
             
             <Formik
-                initialValues={{username:"",email:"",password:""}}
+                initialValues={{username:"",password:""}}
                 onSubmit= {handleSubmit}
                 validationSchema={validationSchema}
             >
@@ -67,9 +87,6 @@ export default function Login() {
                 <Form >
                 <div>
                 <Field name = "username" component={TextField} label="Username"/>
-                </div>
-                <div>
-                <Field name = "email" component={TextField} label="Email"/>
                 </div>
                 <div>
                 <Field name = "password" component={TextField} label="Password" type="password"/>
