@@ -8,6 +8,7 @@ import { useState,useContext } from 'react';
 import PersonIcon from '@mui/icons-material/Person';
 
 import SvgIcon from '@mui/material/SvgIcon';
+import {Link} from 'react-router-dom'
 import { AuthContext as AuthContext } from './context/AuthProvider';
 
 const LOGIN_URL = 'http://localhost:5050/login';
@@ -25,13 +26,7 @@ export default function Login() {
     });
 
     const handleSubmit = async (values,helpers) => {
-        alert(JSON.stringify(values));
-        
-        // const a = JSON.stringify(values["username"])
-        // const b = JSON.stringify(values["password"])
-        // var bodyFormData = new FormData();
-        // bodyFormData.append('username', a);
-        // bodyFormData.append('password', b);
+
 
 
         axios({
@@ -43,9 +38,14 @@ export default function Login() {
             .then(function (response) {
               //handle success
               console.log(response);
+              const accesstoken = response.data.auth_token;
+              console.log(accesstoken);
+              setAuth({accesstoken});
+              console.log(setAuth);
             })
             .catch(function (response) {
               //handle error
+              alert('Login Failed');
               console.log(response);
             });
         
@@ -108,6 +108,7 @@ export default function Login() {
                 </Form>
             )}
             </Formik>
+            <p>New user?<Link to='/register'>Register Here</Link></p>
   
              
            </CardContent>

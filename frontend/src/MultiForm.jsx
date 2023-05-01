@@ -4,6 +4,9 @@ import { ErrorMessage, Field, Form, Formik ,useField,useFormikContext} from 'for
 import { CheckboxWithLabel, Select, TextField } from 'formik-material-ui';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import axios from 'axios';
+
+const ASSOC_URL = 'http://localhost:5050/submission/association'
 
 import * as Yup from 'yup';
 
@@ -22,14 +25,38 @@ const Assoc = (props) => {
   useEffect(() => {
     let isCurrent = true;
     if (doi.trim() !== ''){
-      fetchAssoc(doi).then((assoc) => {
+      axios({
+        method: "get",
+        url: ASSOC_URL,
+        data: {doi:doi},
+        
+      })
+        // .then(function (response) {
+        //   //handle success
+        //   console.log(response);
+        //   const accesstoken = response.data.auth_token;
+        //   console.log(accesstoken);
+        //   setAuth({accesstoken});
+        //   console.log(setAuth);
+        // })
+        // .catch(function (response) {
+        //   //handle error
+        //   alert('Login Failed');
+        //   console.log(response);
+        // });
+      // fetchAssoc(doi)
+      .then((assoc) => {
         if(!!isCurrent){
           setFieldValue(props.name,assoc)
         }
 
-      });
-      // fetch("http://localhost:5050")
-      // .then
+      })
+      .catch(function (response) {
+          //handle error
+          //alert('NONONOONO');
+          console.log(response);
+        });
+
     }
     return () => {
       isCurrent = false;
@@ -78,12 +105,15 @@ export default function Multiform() {
                 <StepTwo prev={handlePrevStep} next={handleNextStep} data={data}/>]
 
     return (
-      <Card style={{width:'700px'}}>
+      <div id = 'logincontainer'>
+        
+        <Card style={{width:'50%',margin:'auto','border-radius': '12px','box-shadow': 'rgb(0 0 0 / 16%) 1px 1px 10px'}}>
         <CardContent>
 
            {steps[currentStep]}
          </CardContent>
-      </Card>
+        </Card>
+      </div>
     )
   }
 
@@ -112,19 +142,19 @@ const StepOne = (props) => {
 
           <div>
           
-          <label>DOI:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          {/* <label>DOI:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> */}
 
 
-          <Field name = "doi" component={TextField}/>
+          <Field name = "doi" component={TextField} label="doi"/>
           </div>
           <div>
-          <label>Association: </label>
+          {/* <label>Association: </label> */}
           
-          <Assoc name = "assoc" component={TextField} />
+          <Assoc name = "assoc" component={TextField}  placeholder="association" />
           </div>
           
           
-          <button type="submit">Next</button>
+          <button type="submit" style={{color: 'yellow', backgroundColor: 'orange', borderColor: 'green'} }>Next</button>
 
         </Form>
       )}
@@ -171,7 +201,7 @@ const StepTwo = (props) => {
 
           </div>
           <div>
-          <Field name="ConferenceType" label="ConferenceType" component={Select} width={'100%'}>
+          <Field name="ConferenceType" label="ConferenceType" component={Select} style={{width:'100%'}}>
           <MenuItem value={'National'}>National</MenuItem>
           <MenuItem value={'International'}>International</MenuItem>
 
@@ -183,8 +213,8 @@ const StepTwo = (props) => {
           }
           
           <div>
-          <button type = "button" onClick={() => props.prev(formProps.values)} style={{float:'left'}}>Back</button>
-          <button type= "submit" style={{float:'right'}}>Submit</button>
+          <button type = "button" style={{color: 'yellow', backgroundColor: 'orange', borderColor: 'green',float:'left'} } onClick={() => props.prev(formProps.values)}>Back</button>
+          <button type= "submit" style={{float:'right',color: 'yellow', backgroundColor: 'orange', borderColor: 'green'}}>Submit</button>
           <br></br>
           </div>
           
