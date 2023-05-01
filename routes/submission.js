@@ -159,8 +159,6 @@ router.post('/submit', auth, async (req, res) => {
     // manual test set up 
     // req.body = {
     //     "association": "ACM",
-    //     "author_name": "Vijayendra Gaikwad",
-    //     "auth_user_id": "123",
     //     "title": "Something ABC",
     //     "journal_conf_name": "Econometrica",
     //     "type": "Journal",
