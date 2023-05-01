@@ -6,7 +6,8 @@ import { CheckboxWithLabel, Select, TextField } from 'formik-material-ui';
 import { useEffect } from 'react';
 import { useState,useContext } from 'react'
 import { AuthContext as AuthContext } from './context/AuthProvider';
-const LOGIN_URL = 'http://localhost:5050/login'
+const LOGIN_URL = 'http://localhost:5050/login';
+import './App.css'
 
 import * as Yup from 'yup';
 
@@ -31,7 +32,7 @@ export default function Login() {
 
         axios({
             method: "post",
-            url: "myurl",
+            url: LOGIN_URL,
             data: values,
             
           })
@@ -72,8 +73,10 @@ export default function Login() {
 
   
     return (
+
+        <div id = 'logincontainer'>
         
-        <Card style={{width:'500px'}}>
+        <Card style={{width:'100%'}}>
             
           <CardContent>
           <h1>Login</h1>
@@ -104,6 +107,7 @@ export default function Login() {
              
            </CardContent>
         </Card>
+        </div>
         
     )
 }
