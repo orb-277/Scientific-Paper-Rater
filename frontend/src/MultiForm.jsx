@@ -2,9 +2,10 @@ import { Card, CardContent, FormLabel, MenuItem, Typography } from '@material-ui
 import { selectClasses } from '@mui/material';
 import { ErrorMessage, Field, Form, Formik ,useField,useFormikContext} from 'formik';
 import { CheckboxWithLabel, Select, TextField } from 'formik-material-ui';
-import { useEffect } from 'react';
+import { useEffect,useContext } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
+import { AuthContext as AuthContext } from './context/AuthProvider';
 
 const ASSOC_URL = 'http://localhost:5050/submission/association'
 
@@ -16,6 +17,7 @@ async function fetchAssoc(a){
 }
 
 const Assoc = (props) => {
+  const {setAuth} = useContext(AuthContext);
   const{
     values: {doi},
     setFieldValue,
@@ -29,6 +31,7 @@ const Assoc = (props) => {
         method: "get",
         url: ASSOC_URL,
         data: {doi:doi},
+        header: {'authorization':setAuth.auth_token}
         
       })
         // .then(function (response) {

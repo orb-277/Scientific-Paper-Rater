@@ -176,12 +176,15 @@ router.post('/submit', auth, async (req, res) => {
         //fetch user using user_id
         const user = await User.findById(user_id);
         paper.association = paper_info.association;
-        paper.author_name = user.username;
-        paper.author_user_id = user_id;
         paper.title = paper_info.title;
         paper.journal_conf_name = paper_info.journal_conf_name;
         paper.type = paper_info.type;
         paper.DOI = paper_info.DOI;
+
+
+        paper.author_name = user.username;
+        paper.author_user_id = user_id;
+
 
 
 

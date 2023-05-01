@@ -41,7 +41,7 @@ export default function Login() {
               const accesstoken = response.data.auth_token;
               console.log(accesstoken);
               setAuth({accesstoken});
-              console.log(setAuth);
+              console.log(setAuth.auth);
             })
             .catch(function (response) {
               //handle error
