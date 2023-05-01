@@ -1,12 +1,17 @@
-import { Card, CardContent, FormLabel, MenuItem, Typography } from '@material-ui/core';
+import { Card, CardContent, FormLabel, MenuItem, Typography,Button } from '@material-ui/core';
 import { selectClasses } from '@mui/material';
 import axios from 'axios';
 import { ErrorMessage, Field, Form, Formik ,useField,useFormikContext} from 'formik';
 import { CheckboxWithLabel, Select, TextField } from 'formik-material-ui';
 import { useEffect } from 'react';
-import { useState,useContext } from 'react'
+import { useState,useContext } from 'react';
+import PersonIcon from '@mui/icons-material/Person';
+
+import SvgIcon from '@mui/material/SvgIcon';
 import { AuthContext as AuthContext } from './context/AuthProvider';
-const LOGIN_URL = 'http://localhost:5050/login'
+
+const LOGIN_URL = 'http://localhost:5050/login';
+import './App.css'
 
 import * as Yup from 'yup';
 
@@ -31,7 +36,7 @@ export default function Login() {
 
         axios({
             method: "post",
-            url: "myurl",
+            url: LOGIN_URL,
             data: values,
             
           })
@@ -72,11 +77,13 @@ export default function Login() {
 
   
     return (
+
+        <div id = 'logincontainer'>
         
-        <Card style={{width:'500px'}}>
+        <Card style={{width:'50%',margin:'auto','border-radius': '12px','box-shadow': 'rgb(0 0 0 / 16%) 1px 1px 10px'}}>
             
           <CardContent>
-          <h1>Login</h1>
+          <h3>Login</h3>
             
             <Formik
                 initialValues={{username:"",password:""}}
@@ -86,6 +93,7 @@ export default function Login() {
             {() => (
                 <Form >
                 <div>
+                
                 <Field name = "username" component={TextField} label="Username"/>
                 </div>
                 <div>
@@ -94,7 +102,7 @@ export default function Login() {
 
                 
                 
-                <button type="submit">Submit</button>
+                <button type='submit' style={{width:'50%',color: 'yellow', backgroundColor: 'orange', borderColor: 'green'} }>Submit</button>
                 
 
                 </Form>
@@ -104,6 +112,7 @@ export default function Login() {
              
            </CardContent>
         </Card>
+        </div>
         
     )
 }
