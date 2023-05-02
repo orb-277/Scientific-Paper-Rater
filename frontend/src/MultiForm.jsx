@@ -140,7 +140,7 @@ export default function Multiform() {
 
 const stepOneValidationSchema = Yup.object({
   doi: Yup.string().required(),
-  assoc: Yup.string().required(),
+  
 });
 
 const StepOne = (props) => {
@@ -173,7 +173,9 @@ const StepOne = (props) => {
           {
             document.getElementsByName("assoc")[0].value = response.data.Association;
             //disable the field
-            document.getElementsByName("assoc")[0].disabled = true; 
+            document.getElementsByName("assoc")[0].disabled = true;
+            document.getElementsByName("assoc")[0].dataset.touched = true;  
+            
           }
          
         } catch (error) {
