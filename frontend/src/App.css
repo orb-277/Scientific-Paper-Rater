@@ -23,9 +23,20 @@ html, body, #root, .wrapper {
 }
 
 #container{
+  min-height:100vh;
+  display:flex;
   background-image: url('assets/bg-img2.jpg');
   flex-direction:column;
 
+}
+#container2{
+  min-width:100%;
+  display:flex;
+
+}
+
+#blackh2{
+  color:black;
 }
 
 

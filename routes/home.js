@@ -15,6 +15,7 @@ router.get('/papers', auth, async (req, res) => {
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
         const user_id = decoded._id;
         const papers = await Paper.find({ author_user_id: user_id });
+        console.log(papers);
         res.json(papers);
     } catch (error) {
         console.error(error);

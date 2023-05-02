@@ -15,19 +15,18 @@ import {
   useFormikContext,
 } from "formik";
 import { CheckboxWithLabel, Select, TextField } from "formik-material-ui";
-import { useEffect, useContext } from "react";
+import { useContext } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { AuthContext as AuthContext } from "./context/AuthProvider";
+import {Link, useNavigate} from 'react-router-dom';
 
 const ASSOC_URL = "http://localhost:5050/submission/association";
+const SUBMIT_URL = "http://localhost:5050/submission/submit";
 
 import * as Yup from "yup";
 
-async function fetchAssoc(a) {
-  await new Promise((r) => setTimeout(r, 500));
-  return `test: ${a}`;
-}
+
 
 const Assoc = (props) => {
   const { setAuth } = useContext(AuthContext);
@@ -56,35 +55,6 @@ const Assoc = (props) => {
     }
   };
 
-  // useEffect(() => {
-  //   let isCurrent = true;
-  //   if (doi.trim() !== ''){
-  //     axios({
-  //       method: "get",
-  //       url: ASSOC_URL,
-  //       data: {doi:doi},
-  //       headers: {'authorization':`Bearer ${token}`}
-
-  //     })
-  //     .then((assoc) => {
-  //       console.log(assoc);
-  //       if(!!isCurrent){
-  //         setFieldValue(props.name,assoc)
-  //       }
-
-  //     })
-  //     .catch(function (response) {
-  //         //handle error
-  //         //alert('NONONOONO');
-  //         console.log(response);
-  //       });
-
-  //   }
-  //   return () => {
-  //     isCurrent = false;
-  //   };
-  // }),[doi,setFieldValue,props.name];
-
   return (
     <>
       <Field {...props} {...field} />
@@ -94,6 +64,7 @@ const Assoc = (props) => {
 
 export default function Multiform() {
   const [data, setData] = useState({
+    title: "",
     doi: "",
     association: "",
     Journal: "",
@@ -139,6 +110,7 @@ export default function Multiform() {
 }
 
 const stepOneValidationSchema = Yup.object({
+  title: Yup.string().required(),
   doi: Yup.string().required(),
   
 });
@@ -147,6 +119,7 @@ const StepOne = (props) => {
  
   const handleSubmit = (values, helpers) => {
     props.next(values);
+    
   };
 
 
@@ -194,9 +167,19 @@ const StepOne = (props) => {
       {() => (
         <Form>
           <h1>Step1</h1>
+          <div>
+            
+
+            <Field
+              name="title"
+              component={TextField}
+              label="title"
+              
+            />
+          </div>
 
           <div>
-            {/* <label>DOI:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> */}
+            
 
             <Field
               name="doi"
@@ -206,12 +189,13 @@ const StepOne = (props) => {
             />
           </div>
           <div>
-            {/* <label>Association: </label> */}
+           
 
             <Assoc
               name="assoc"
               component={TextField}
               placeholder="association"
+              touched="false"
      
              
             />
@@ -234,13 +218,52 @@ const StepOne = (props) => {
 };
 
 const StepTwo = (props) => {
+  const navigate = useNavigate();
   const [choice, setChoice] = useState(props.data["Type"]);
   const choiceChange = (e) => {
     setChoice(e.target.value);
     console.log(choice);
   };
   const handleSubmit = (values, helpers) => {
-    props.next(values, true);
+    //props.next(values);
+
+    const token = localStorage.getItem("token");
+    let j_c_name;
+    if(values['Journal'].trim() === ''){
+      j_c_name = values['Conference'];
+    }
+    else{
+      j_c_name = values['Journal'];
+    }
+    axios({
+      method: "post",
+      url: SUBMIT_URL,
+      data: {association:values['association'],title:values['title'],journal_conf_name:j_c_name,type:values['Type'],DOI:values['doi']},
+
+      headers: { authorization: `Bearer ${token}` },
+      
+    })
+      .then(function (response) {
+        //handle success
+        console.log(response);
+        // const accesstoken = response.data.auth_token;
+        // console.log(accesstoken);
+        // localStorage.setItem('token',accesstoken);
+        
+        navigate("/user");
+        
+        
+
+      })
+      .catch(function (response) {
+        //handle error
+        alert('Submission Failed');
+        console.log(response);
+      });
+
+    
+
+
   };
   return (
     <Formik initialValues={props.data} onSubmit={handleSubmit}>
