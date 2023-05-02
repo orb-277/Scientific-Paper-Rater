@@ -1,11 +1,11 @@
 
 import './App.css';
 
-export default function something(){
+function Something(){
   return (
     
     <h1>hiiii</h1>
     
   );
 }
-
+export default  Something;

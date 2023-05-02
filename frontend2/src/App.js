@@ -1,15 +1,14 @@
 
 import './App.css';
-import {something} from './hi';
-
+import Something from './component_something';
 
 
 function App() {
   return (
     <div className="App">
       <h1>adf</h1>
-
-      <something />
+      <Something />
+      <h1>somewe</h1>
     </div>
   );
 }
