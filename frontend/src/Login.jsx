@@ -3,10 +3,10 @@ import { selectClasses } from '@mui/material';
 import axios from 'axios';
 import { ErrorMessage, Field, Form, Formik ,useField,useFormikContext} from 'formik';
 import { CheckboxWithLabel, Select, TextField } from 'formik-material-ui';
-import { useEffect } from 'react';
+
 import { useState,useContext } from 'react';
 
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import { AuthContext as AuthContext } from './context/AuthProvider';
 
 const LOGIN_URL = 'http://localhost:5050/login';
@@ -16,6 +16,7 @@ import * as Yup from 'yup';
 
 export default function Login() {
     const {setAuth} = useContext(AuthContext);
+    const navigate = useNavigate();
 
 
     const validationSchema = Yup.object({
@@ -24,6 +25,9 @@ export default function Login() {
     });
 
     const handleSubmit = async (values,helpers) => {
+      let LoginSuccess = false;
+      
+      
 
 
 
@@ -39,6 +43,10 @@ export default function Login() {
               const accesstoken = response.data.auth_token;
               console.log(accesstoken);
               localStorage.setItem('token',accesstoken);
+              LoginSuccess = true;
+              navigate("/user");
+              
+              
 
             })
             .catch(function (response) {
@@ -46,6 +54,12 @@ export default function Login() {
               alert('Login Failed');
               console.log(response);
             });
+
+            
+       
+          
+
+
         
         // try{
 
