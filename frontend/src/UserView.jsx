@@ -3,6 +3,7 @@ import './App.css'
 //import { Card, CardContent} from '@material-ui/core';
 import {NavBar}  from './NavBar';
 import { useState,useEffect } from 'react';
+import {Card,CardContent} from '@material-ui/core';
 const PAPERS_URL = 'http://localhost:5050/home/papers';
 
 
@@ -26,13 +27,26 @@ export default function  UserView(){
         }
         fetchData();
     }, []);
+    const cardLoad = papers.map((paper) => {
+      <Card style={{margin:'auto','border-radius': '12px','box-shadow': 'rgb(0 0 0 / 16%) 1px 1px 10px'}}>
+            
+            <CardContent>
+            <h3>Login</h3>
+            
+              
+              
+    
+               
+             </CardContent>
+          </Card>
+    })
 
         
 
     return (
         <div id='container'>
         <NavBar/>
-        <div><h2 id='blackh2'>hi {papers.length}</h2></div>
+        
         
         </div>
     )

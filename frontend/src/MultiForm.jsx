@@ -55,35 +55,6 @@ const Assoc = (props) => {
     }
   };
 
-  // useEffect(() => {
-  //   let isCurrent = true;
-  //   if (doi.trim() !== ''){
-  //     axios({
-  //       method: "get",
-  //       url: ASSOC_URL,
-  //       data: {doi:doi},
-  //       headers: {'authorization':`Bearer ${token}`}
-
-  //     })
-  //     .then((assoc) => {
-  //       console.log(assoc);
-  //       if(!!isCurrent){
-  //         setFieldValue(props.name,assoc)
-  //       }
-
-  //     })
-  //     .catch(function (response) {
-  //         //handle error
-  //         //alert('NONONOONO');
-  //         console.log(response);
-  //       });
-
-  //   }
-  //   return () => {
-  //     isCurrent = false;
-  //   };
-  // }),[doi,setFieldValue,props.name];
-
   return (
     <>
       <Field {...props} {...field} />
@@ -222,6 +193,7 @@ const StepOne = (props) => {
               name="assoc"
               component={TextField}
               placeholder="association"
+              touched="false"
      
              
             />
