@@ -26,10 +26,17 @@ const SUBMIT_URL = "http://localhost:5050/submission/submit";
 
 import * as Yup from "yup";
 
+const handleAssocChange = (value) => {
+  setData((prevData) => ({
+    ...prevData,
+    assoc: value
+  }));
+};
+
 
 
 const Assoc = (props) => {
-  const { setAuth } = useContext(AuthContext);
+  //const { setAuth } = useContext(AuthContext);
   const {
     values: { doi },
     setFieldValue,
@@ -48,6 +55,8 @@ const Assoc = (props) => {
         console.log(response);
         console.log(response.data);
         setFieldValue(props.name, response.data);
+        props.onAssocChange(response.data); 
+
       } catch (error) {
         // handle error
         console.log(error);
@@ -58,6 +67,7 @@ const Assoc = (props) => {
   return (
     <>
       <Field {...props} {...field} />
+      {!!meta.touched && !!meta.error && <div>{meta.error}</div>}
     </>
   );
 };
@@ -66,7 +76,7 @@ export default function Multiform() {
   const [data, setData] = useState({
     title: "",
     doi: "",
-    association: "",
+    assoc: "",
     Journal: "",
     Conference: "",
     Type: "Journal",
@@ -194,6 +204,7 @@ const StepOne = (props) => {
               component={TextField}
               placeholder="association"
               touched="false"
+              onAssocChange={handleAssocChange}
      
              
             />

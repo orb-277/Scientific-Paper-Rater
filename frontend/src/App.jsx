@@ -4,6 +4,7 @@ import Multiform from './MultiForm'
 import Login from './Login'
 import Registration from './Registration'
 import  UserView  from './UserView'
+import Form from './Form'
 
 
 import {Routes,Route} from 'react-router-dom'
