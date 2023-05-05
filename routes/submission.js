@@ -93,7 +93,7 @@ async function scrapeInfo(author_name, title) {
     //console.log(h_index);
     const matchingRows = [];
 
-    const stream = fs.createReadStream('data\\scimago_data_2021.csv')
+    const stream = fs.createReadStream('data/scimago_data_2021.csv')
         .pipe(csv({ separator: ';' }));
 
     for await (const row of stream) {
