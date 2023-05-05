@@ -181,7 +181,7 @@ router.post('/submit', auth, async (req, res) => {
         var paper = {};
 
         var paper_info = req.body;
-        
+        console.log(paper_info);
         var authHeader = req.headers.authorization;
         const token = authHeader.split(' ')[1];
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
@@ -191,6 +191,10 @@ router.post('/submit', auth, async (req, res) => {
         paper.association = paper_info.association;
         paper.title = paper_info.title;
         paper.journal_conf_name = paper_info.journal_conf_name;
+        console.log(paper.journal_conf_name); 
+        if(paper.journal_conf_name === undefined || paper.journal_conf_name === null || paper.journal_conf_name === ""){
+            return res.status(400).json({ "message": "Journal/Conference name is required" });
+        }
         paper.type = paper_info.type;
         paper.DOI = paper_info.DOI;
 

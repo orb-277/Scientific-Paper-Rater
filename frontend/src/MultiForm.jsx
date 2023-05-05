@@ -677,11 +677,12 @@ const StepTwo = (props) => {
     //props.next(values);
 
     const token = localStorage.getItem("token");
-    let j_c_name;
+    var j_c_name;
     if(values['Journal'].trim() === ''){
       j_c_name = values['Conference'];
     }
     else{
+      console.log(values['Journal']); 
       j_c_name = values['Journal'];
     }
     axios({
