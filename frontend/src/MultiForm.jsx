@@ -310,6 +310,7 @@ const StepTwo = (props) => {
     alert(JSON.stringify(values));
 
     const token = localStorage.getItem("token");
+
     let j_c_name;
     if(values['JournalName'].trim() === ''){
       j_c_name = values['ConferenceName'];
@@ -317,6 +318,8 @@ const StepTwo = (props) => {
     else{
       j_c_name = values['JournalName'];
     }
+
+  
     axios({
       method: "post",
       url: SUBMIT_URL,
@@ -346,7 +349,7 @@ const StepTwo = (props) => {
     
 
 
-  };
+  }
   return (
     <Formik initialValues={props.data} onSubmit={handleSubmit}>
       {(formProps) => (
@@ -422,4 +425,5 @@ const StepTwo = (props) => {
       )}
     </Formik>
   );
+            
 };
