@@ -323,7 +323,7 @@ const StepTwo = (props) => {
     axios({
       method: "post",
       url: SUBMIT_URL,
-      data: {association:values['association'],title:values['title'],journal_conf_name:j_c_name,type:values['Type'],DOI:values['doi']},
+      data: {association:values['assoc'],title:values['title'],journal_conf_name:j_c_name,type:values['Type'],DOI:values['doi']},
 
       headers: { authorization: `Bearer ${token}` },
       

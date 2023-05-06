@@ -4,6 +4,7 @@ import './App.css'
 import {NavBar}  from './NavBar';
 import { useState,useEffect } from 'react';
 import {Card,CardContent} from '@material-ui/core';
+import PaperCard from './PaperCard'
 const PAPERS_URL = 'http://localhost:5050/home/papers';
 
 
@@ -23,22 +24,15 @@ export default function  UserView(){
         async function fetchData() {
           const loadedArray = await loadPapers();
           setPapers(loadedArray);
-          //console.log(loadedArray);
+          console.log(loadedArray);
         }
         fetchData();
     }, []);
     const cardLoad = papers.map((paper) => {
-      <Card style={{margin:'auto','border-radius': '12px','box-shadow': 'rgb(0 0 0 / 16%) 1px 1px 10px'}}>
-            
-            <CardContent>
-            <h3>Login</h3>
-            
-              
-              
-    
-               
-             </CardContent>
-          </Card>
+      
+      return (<PaperCard paper={paper}/>)
+      
+      
     })
 
         
@@ -46,6 +40,8 @@ export default function  UserView(){
     return (
         <div id='container'>
         <NavBar/>
+
+        {cardLoad}
         
         
         </div>

@@ -1,28 +1,49 @@
 import React from "react";
 import Card from '@material-ui/core/Card';
 import { CardHeader,CardContent, IconButton, Typography } from "@material-ui/core";
+import {DeleteOutlined} from '@material-ui/icons'
 export default function PaperCard({paper}){
+    console.log(paper);
     return (
-        <div>
+        
             <Card elevation={4}>
                 <CardHeader action={
-                    <IconButton onClick={()=>console.log('delete!!!')}>
+                    <IconButton onClick={()=>alert('delete!!!')}>
                         <DeleteOutlined />
                     </IconButton>
                 }
+                
                 title={paper.title}
-                subheader={paper.author}
+                // subheader={paper.author}
                 />
-            </Card>
+            
             <CardContent>
                 <Typography>
                     {paper.type}
-                    {paper.journal_conf_name}
-                    {paper.DOI}
-                    {paper.association}
-                    {paper.Paper_Score}
                 </Typography>
+                <Typography>
+                {paper.journal_conf_name}
+
+                </Typography>
+                <Typography>
+                {paper.DOI}
+
+                </Typography>
+                <Typography>
+                {paper.association}
+
+                </Typography>
+                <Typography>
+                {paper.Paper_Score}
+
+                </Typography>
+                    
+                    
+                    
+                    
+                
             </CardContent>
-        </div>
+            </Card>
+        
     )
 }
