@@ -45,7 +45,7 @@ export default function  UserView(){
     return (
         <Container>
         <NavBar/>
-        <h2 className='blackh2'>Your Papers:</h2>
+        <h2 style={{color:'black'}}>Your Papers:</h2>
         
           
           {cardLoad}

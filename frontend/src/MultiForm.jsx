@@ -120,6 +120,7 @@ const token = localStorage.getItem("token");
         
         console.log(textC);
         setFieldValue(props.name, textC.data.Association);
+        
 
       } 
 
