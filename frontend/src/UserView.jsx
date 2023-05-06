@@ -5,6 +5,7 @@ import {NavBar}  from './NavBar';
 import { useState,useEffect } from 'react';
 import {Card,CardContent} from '@material-ui/core';
 import PaperCard from './PaperCard'
+import { Grid,Container } from '@mui/material';
 const PAPERS_URL = 'http://localhost:5050/home/papers';
 
 
@@ -30,7 +31,11 @@ export default function  UserView(){
     }, []);
     const cardLoad = papers.map((paper) => {
       
-      return (<PaperCard paper={paper}/>)
+      return (
+      
+      <PaperCard paper={paper}/>
+      
+      )
       
       
     })
@@ -38,13 +43,20 @@ export default function  UserView(){
         
 
     return (
-        <div id='container'>
+        <Container>
         <NavBar/>
+        <h2 className='blackh2'>Your Papers:</h2>
+        
+          
+          {cardLoad}
 
-        {cardLoad}
+          
+        
+
         
         
-        </div>
+        
+          </Container>
     )
 
 }

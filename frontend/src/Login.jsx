@@ -44,6 +44,7 @@ export default function Login() {
               console.log(accesstoken);
               localStorage.setItem('token',accesstoken);
               LoginSuccess = true;
+              localStorage.setItem('username',values['username']);
               navigate("/user");
               
               

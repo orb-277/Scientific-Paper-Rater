@@ -4,6 +4,7 @@ import { CardHeader,CardContent, IconButton, Typography } from "@material-ui/cor
 import {DeleteOutlined} from '@material-ui/icons'
 export default function PaperCard({paper}){
     console.log(paper);
+    const j_c_name = paper.type+' Name';
     return (
         
             <Card elevation={4}>
@@ -13,29 +14,23 @@ export default function PaperCard({paper}){
                     </IconButton>
                 }
                 
-                title={paper.title}
+                title={<a href={paper.DOI}>{paper.title}</a>}
                 // subheader={paper.author}
                 />
             
             <CardContent>
                 <Typography>
-                    {paper.type}
-                </Typography>
-                <Typography>
-                {paper.journal_conf_name}
+                
+
+                {j_c_name}: {paper.journal_conf_name}
 
                 </Typography>
                 <Typography>
-                {paper.DOI}
+                Association: {paper.association}
 
                 </Typography>
-                <Typography>
-                {paper.association}
-
-                </Typography>
-                <Typography>
+                <Typography style={{fontSize: "1.5rem", fontWeight: "bold" }}>
                 {paper.Paper_Score}
-
                 </Typography>
                     
                     
