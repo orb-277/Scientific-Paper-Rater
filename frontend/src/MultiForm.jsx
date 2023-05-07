@@ -34,46 +34,7 @@ const handleAssocChange = (value) => {
     assoc: value
   }));
 };
-async function scrapeAssociation(DOI) {
-    
-    
-  //console.log("scraping association")
-  //console.log(DOI)
-  if(DOI == undefined || DOI == null || DOI == ""){
-      return "Unknown1";
-  }
-  var scraped = {};
-  try{
-    console.log(DOI);
-      var res = await axios.get(DOI);
-      
-      var assoc_url = res.request._redirectable._currentUrl;
-  }catch(error){
-      return "Unknown2";
 
-  }
- 
-  //check if acm or ieee or springer is in the url
-  if (assoc_url.includes("acm")) {
-      scraped.Association = "ACM";
-  }
-  else if (assoc_url.includes("ieee")) {
-      scraped.Association = "IEEE";
-  }
-  else if (assoc_url.includes("springer")) {
-      scraped.Association = "Springer";
-  }
-  else if (assoc_url.includes("mr.crossref")) {
-      scraped.Association = "IET";
-  }
-  else if (assoc_url.includes("wiley")) {
-      scraped.Association = "Wiley";
-  }
-  else {
-      scraped.Association = "Unknown";
-  }
-  return scraped;
-}
 
 
 
@@ -106,6 +67,7 @@ const Assoc = (props) => {
   //   }
 //};
 const token = localStorage.getItem("token");
+const [assocFound, setAssocFound] = useState(false);
   useEffect(() => {
     let isCurrent = true;
     // your business logic around when to fetch goes here.
@@ -119,7 +81,20 @@ const token = localStorage.getItem("token");
             //     try {
         
         console.log(textC);
-        setFieldValue(props.name, textC.data.Association);
+        if(textC.data.Association){
+          setFieldValue(props.name, textC.data.Association);
+          setAssocFound(true);
+          
+
+
+        }
+        else{
+          setAssocFound(false);
+          setFieldValue(props.name, 'Association Not Found');
+
+        }
+        
+        
 
       } 
 
@@ -133,7 +108,7 @@ const token = localStorage.getItem("token");
 
   return (
     <>
-      <Field {...props} {...field} />
+      <Field {...props} {...field} disabled={assocFound}/>
       {!!meta.touched && !!meta.error }
     </>
   );
@@ -205,39 +180,40 @@ const StepOne = (props) => {
 
   const token = localStorage.getItem("token");
   console.log(token);
-  const handleDOIChange = async (event) => {
-    if (event.keyCode === 13) {
-      const doi = event.target.value.trim();
-      console.log(doi);
-      if (doi !== "") {
-        try {
-          const response = await axios.get(ASSOC_URL, {
-            params: { doi : doi },
-            headers: { authorization: `Bearer ${token}` },
-          });
-          //llogic to set the association
-          console.log(response.data.Association);
-          if(response.data.Association === "Unknown"){
-            alert("Unknown DOI,please enter it manually");
-            document.getElementsByName("assoc")[0].disabled = false;
-            document.getElementsByName("assoc")[0].value = "Unknown";
-          }
-          else
-          {
-            document.getElementsByName("assoc")[0].value = response.data.Association;
-            //disable the field
-            document.getElementsByName("assoc")[0].disabled = true;
-            document.getElementsByName("assoc")[0].dataset.touched = true;  
+  let gotDOI = false;
+  // const handleDOIChange = async (event) => {
+  //   if (event.keyCode === 13) {
+  //     const doi = event.target.value.trim();
+  //     console.log(doi);
+  //     if (doi !== "") {
+  //       try {
+  //         const response = await axios.get(ASSOC_URL, {
+  //           params: { doi : doi },
+  //           headers: { authorization: `Bearer ${token}` },
+  //         });
+  //         //llogic to set the association
+  //         console.log(response.data.Association);
+  //         if(response.data.Association === "Unknown"){
+  //           alert("Unknown DOI,please enter it manually");
+  //           document.getElementsByName("assoc")[0].disabled = false;
+  //           document.getElementsByName("assoc")[0].value = "Unknown";
+  //         }
+  //         else
+  //         {
+  //           document.getElementsByName("assoc")[0].value = response.data.Association;
+  //           //disable the field
+  //           document.getElementsByName("assoc")[0].disabled = true;
+  //           document.getElementsByName("assoc")[0].dataset.touched = true;  
             
-          }
+  //         }
          
-        } catch (error) {
-          // handle error
-          console.log(error);
-        }
-      }
-    }
-  };
+  //       } catch (error) {
+  //         // handle error
+  //         console.log(error);
+  //       }
+  //     }
+  //   }
+  // };
   return (
     <Formik
       initialValues={props.data}
@@ -265,7 +241,7 @@ const StepOne = (props) => {
               name="doi"
               component={TextField}
               label="doi"
-              onKeyDown={handleDOIChange}
+              // onKeyDown={handleDOIChange}
             />
           </div>
           <div>
@@ -277,6 +253,7 @@ const StepOne = (props) => {
               placeholder="association"
               touched="false"
               onAssocChange={handleAssocChange}
+              
      
              
             />
@@ -307,7 +284,7 @@ const StepTwo = (props) => {
   };
   const handleSubmit = (values, helpers) => {
     //props.next(values);
-    alert(JSON.stringify(values));
+    alert(JSON.stringify(values['assoc']));
 
     const token = localStorage.getItem("token");
 
@@ -323,7 +300,7 @@ const StepTwo = (props) => {
     axios({
       method: "post",
       url: SUBMIT_URL,
-      data: {association:values['association'],title:values['title'],journal_conf_name:j_c_name,type:values['Type'],DOI:values['doi']},
+      data: {association:values['assoc'],title:values['title'],journal_conf_name:j_c_name,type:values['Type'],DOI:values['doi']},
 
       headers: { authorization: `Bearer ${token}` },
       

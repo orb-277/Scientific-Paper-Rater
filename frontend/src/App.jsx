@@ -4,10 +4,12 @@ import Multiform from './MultiForm'
 import Login from './Login'
 import Registration from './Registration'
 import  UserView  from './UserView'
-import Form from './Form'
+
 
 
 import {Routes,Route} from 'react-router-dom'
+import AdminView from './AdminView'
+import AdminUserView from './AdminUserView'
 
 
 
@@ -22,7 +24,8 @@ function App() {
       <Route path="/register" element={<Registration />} />
 
       <Route path="/user" element={<UserView/>} />
-      <Route path="/admin" element={<admin />} />
+      <Route path="/admin" element={<AdminView />} />
+      <Route path="/admin/userDetails" element={<AdminUserView/>}/>
       <Route path="/form" element={<Multiform />} />
 
    

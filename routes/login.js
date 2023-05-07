@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
 
     // Generate auth token and send it to client
     const token = await user.generateAuthToken();
-    res.json({ auth_token : token });
+    res.json({ auth_token : token,privilege : user.privilege_level });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });

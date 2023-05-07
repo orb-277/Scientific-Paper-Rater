@@ -53,7 +53,8 @@ router.get('/papers/search', authAdmin, async (req, res) => {
 //tested 
 router.get('/user/papers', authAdmin, async (req, res) => {
     try {
-        const user_id = req.body.user_id;
+        const user_id = req.query.user_id;
+        console.log(user_id);
         const papers = await Paper.find({ author_user_id: user_id });
         res.json(papers);
     } catch (error) {

@@ -10,6 +10,7 @@ import {Link, useNavigate} from 'react-router-dom'
 import { AuthContext as AuthContext } from './context/AuthProvider';
 
 const LOGIN_URL = 'http://localhost:5050/login';
+const ADMIN_URL = 'http://localhost:5050/admin/users';
 import './App.css'
 
 import * as Yup from 'yup';
@@ -41,10 +42,19 @@ export default function Login() {
               //handle success
               console.log(response);
               const accesstoken = response.data.auth_token;
+              const privilege = response.data.privilege;
               console.log(accesstoken);
               localStorage.setItem('token',accesstoken);
+              localStorage.setItem('privilege',privilege);
               LoginSuccess = true;
+              localStorage.setItem('username',values['username']);
+              if(privilege === 0){
+                navigate("/admin");
+
+              }
+              else{
               navigate("/user");
+              }
               
               
 

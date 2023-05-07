@@ -4,6 +4,8 @@ import './App.css'
 import {NavBar}  from './NavBar';
 import { useState,useEffect } from 'react';
 import {Card,CardContent} from '@material-ui/core';
+import PaperCard from './PaperCard'
+import { Grid,Container } from '@mui/material';
 const PAPERS_URL = 'http://localhost:5050/home/papers';
 
 
@@ -13,8 +15,10 @@ export default function  UserView(){
 
     async function loadPapers() {
         const token = localStorage.getItem("token");
+        const userId = localStorage.getItem("userId");
         const response = await axios.get(PAPERS_URL, {
           headers: { authorization: `Bearer ${token}` },
+          
         }).catch((e) => {console.log(e);})
         const loadedArray = response.data; // extract the array data from the response object
         return loadedArray;
@@ -23,32 +27,38 @@ export default function  UserView(){
         async function fetchData() {
           const loadedArray = await loadPapers();
           setPapers(loadedArray);
-          //console.log(loadedArray);
+          console.log(loadedArray);
         }
         fetchData();
     }, []);
     const cardLoad = papers.map((paper) => {
-      <Card style={{margin:'auto','border-radius': '12px','box-shadow': 'rgb(0 0 0 / 16%) 1px 1px 10px'}}>
-            
-            <CardContent>
-            <h3>Login</h3>
-            
-              
-              
-    
-               
-             </CardContent>
-          </Card>
+      
+      return (
+      
+      <PaperCard paper={paper}/>
+      
+      )
+      
+      
     })
 
         
 
     return (
-        <div id='container'>
+        <Container>
         <NavBar/>
+        <h2 style={{color:'black'}}>Your Papers:</h2>
+        
+          
+          {cardLoad}
+
+          
+        
+
         
         
-        </div>
+        
+          </Container>
     )
 
 }
