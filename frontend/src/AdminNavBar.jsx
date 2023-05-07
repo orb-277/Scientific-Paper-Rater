@@ -4,13 +4,13 @@ import {Link, useNavigate} from 'react-router-dom'
 export const AdminNavBar = () => {
     const navigate = useNavigate();
     return (
-        <AppBar position = 'static' style={{'margin-bottom':'10px'}}>
+        <AppBar position = 'static' style={{'margin-bottom':'10px','bgcolor': "green"}}>
             <Toolbar>
                 <Typography variant='h6' component='div' sx = {{flexGrow:1}}>Admin</Typography>
                     
             
             <Stack direction='row' spacing={2}>
-                <Button color='inherit' onClick={() => {navigate('/')}}>Author Search</Button>
+                <Button color='inherit' onClick={() => {navigate('/admin/userSearch')}}>Author Search</Button>
                 <Button color='inherit' onClick={() => {navigate('/')}}>Paper Search</Button>
                 <Button color='inherit' onClick={() => {localStorage.removeItem('token');localStorage.removeItem('username');navigate('/login')}}>Logout</Button>
                 
