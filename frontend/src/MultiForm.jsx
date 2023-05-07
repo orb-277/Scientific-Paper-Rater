@@ -106,6 +106,7 @@ const Assoc = (props) => {
   //   }
 //};
 const token = localStorage.getItem("token");
+const [assocFound, setAssocFound] = useState(false);
   useEffect(() => {
     let isCurrent = true;
     // your business logic around when to fetch goes here.
@@ -119,7 +120,19 @@ const token = localStorage.getItem("token");
             //     try {
         
         console.log(textC);
-        setFieldValue(props.name, textC.data.Association);
+        if(textC.data.Association){
+          setFieldValue(props.name, textC.data.Association);
+          setAssocFound(true);
+          
+
+
+        }
+        else{
+          setAssocFound(false);
+          setFieldValue(props.name, 'Association Not Found');
+
+        }
+        
         
 
       } 
@@ -134,7 +147,7 @@ const token = localStorage.getItem("token");
 
   return (
     <>
-      <Field {...props} {...field} />
+      <Field {...props} {...field} disabled={assocFound}/>
       {!!meta.touched && !!meta.error }
     </>
   );
@@ -206,39 +219,40 @@ const StepOne = (props) => {
 
   const token = localStorage.getItem("token");
   console.log(token);
-  const handleDOIChange = async (event) => {
-    if (event.keyCode === 13) {
-      const doi = event.target.value.trim();
-      console.log(doi);
-      if (doi !== "") {
-        try {
-          const response = await axios.get(ASSOC_URL, {
-            params: { doi : doi },
-            headers: { authorization: `Bearer ${token}` },
-          });
-          //llogic to set the association
-          console.log(response.data.Association);
-          if(response.data.Association === "Unknown"){
-            alert("Unknown DOI,please enter it manually");
-            document.getElementsByName("assoc")[0].disabled = false;
-            document.getElementsByName("assoc")[0].value = "Unknown";
-          }
-          else
-          {
-            document.getElementsByName("assoc")[0].value = response.data.Association;
-            //disable the field
-            document.getElementsByName("assoc")[0].disabled = true;
-            document.getElementsByName("assoc")[0].dataset.touched = true;  
+  let gotDOI = false;
+  // const handleDOIChange = async (event) => {
+  //   if (event.keyCode === 13) {
+  //     const doi = event.target.value.trim();
+  //     console.log(doi);
+  //     if (doi !== "") {
+  //       try {
+  //         const response = await axios.get(ASSOC_URL, {
+  //           params: { doi : doi },
+  //           headers: { authorization: `Bearer ${token}` },
+  //         });
+  //         //llogic to set the association
+  //         console.log(response.data.Association);
+  //         if(response.data.Association === "Unknown"){
+  //           alert("Unknown DOI,please enter it manually");
+  //           document.getElementsByName("assoc")[0].disabled = false;
+  //           document.getElementsByName("assoc")[0].value = "Unknown";
+  //         }
+  //         else
+  //         {
+  //           document.getElementsByName("assoc")[0].value = response.data.Association;
+  //           //disable the field
+  //           document.getElementsByName("assoc")[0].disabled = true;
+  //           document.getElementsByName("assoc")[0].dataset.touched = true;  
             
-          }
+  //         }
          
-        } catch (error) {
-          // handle error
-          console.log(error);
-        }
-      }
-    }
-  };
+  //       } catch (error) {
+  //         // handle error
+  //         console.log(error);
+  //       }
+  //     }
+  //   }
+  // };
   return (
     <Formik
       initialValues={props.data}
@@ -266,7 +280,7 @@ const StepOne = (props) => {
               name="doi"
               component={TextField}
               label="doi"
-              onKeyDown={handleDOIChange}
+              // onKeyDown={handleDOIChange}
             />
           </div>
           <div>
@@ -278,6 +292,7 @@ const StepOne = (props) => {
               placeholder="association"
               touched="false"
               onAssocChange={handleAssocChange}
+              
      
              
             />
@@ -308,7 +323,7 @@ const StepTwo = (props) => {
   };
   const handleSubmit = (values, helpers) => {
     //props.next(values);
-    alert(JSON.stringify(values));
+    alert(JSON.stringify(values['assoc']));
 
     const token = localStorage.getItem("token");
 
