@@ -15,7 +15,7 @@ const PAPER_SEARCH_URL = 'http://localhost:5050/admin/papers/search';
 
 
 
-function UserSearch() {
+function PaperSearch() {
   const [papername, setPapername] = useState('');
   
   const navigate = useNavigate();
@@ -28,31 +28,32 @@ function UserSearch() {
     }
      
     const token = localStorage.getItem('token');
-    axios({
+     axios({
         method: "delete",
         url: PAPER_DELETE_URL,
         headers:{ authorization: `Bearer ${token}` },
         data: {paper_id:paperId},
         
-      })
-        .then(function (response) {
+      }).then(function (response) {
           //handle success
           console.log(response);
           //navigate("/admin/userDetails");
-          
+          axios.get(PAPER_SEARCH_URL, { params: { papername },headers: { authorization: `Bearer ${token}` } })
+      .then(response => {
+        // update the state with the updated list of papers
+        setPapers(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
           //window.location.reload();
-
-
-          
-          
-
         })
         .catch(function (response) {
           //handle error
           alert('Delete Failed');
           console.log(response);
         });
-
+    
 }
 
 
@@ -116,4 +117,4 @@ function UserSearch() {
   );
 }
 
-export default UserSearch;
+export default PaperSearch;

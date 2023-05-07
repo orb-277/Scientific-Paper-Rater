@@ -68,7 +68,17 @@ export default function  AdminUserView(){
               console.log(response);
               //navigate("/admin/userDetails");
               
-              window.location.reload();
+              axios.get(PAPERS_URL, {
+                params: {user_id: userId},
+              headers: { authorization: `Bearer ${token}` }
+              
+            }).then(response => {
+                // update the state with the updated list of papers
+                setPapers(response.data);
+              })
+              .catch(error => {
+                console.log(error);
+              });
   
   
               
