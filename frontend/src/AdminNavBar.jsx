@@ -10,8 +10,8 @@ export const AdminNavBar = () => {
                     
             
             <Stack direction='row' spacing={2}>
-                <Button color='inherit' onClick={() => {navigate('/form')}}>Author Search</Button>
-                <Button color='inherit' onClick={() => {navigate('/form')}}>Paper Search</Button>
+                <Button color='inherit' onClick={() => {navigate('/')}}>Author Search</Button>
+                <Button color='inherit' onClick={() => {navigate('/')}}>Paper Search</Button>
                 <Button color='inherit' onClick={() => {localStorage.removeItem('token');localStorage.removeItem('username');navigate('/login')}}>Logout</Button>
                 
             </Stack>

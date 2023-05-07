@@ -34,46 +34,7 @@ const handleAssocChange = (value) => {
     assoc: value
   }));
 };
-async function scrapeAssociation(DOI) {
-    
-    
-  //console.log("scraping association")
-  //console.log(DOI)
-  if(DOI == undefined || DOI == null || DOI == ""){
-      return "Unknown1";
-  }
-  var scraped = {};
-  try{
-    console.log(DOI);
-      var res = await axios.get(DOI);
-      
-      var assoc_url = res.request._redirectable._currentUrl;
-  }catch(error){
-      return "Unknown2";
 
-  }
- 
-  //check if acm or ieee or springer is in the url
-  if (assoc_url.includes("acm")) {
-      scraped.Association = "ACM";
-  }
-  else if (assoc_url.includes("ieee")) {
-      scraped.Association = "IEEE";
-  }
-  else if (assoc_url.includes("springer")) {
-      scraped.Association = "Springer";
-  }
-  else if (assoc_url.includes("mr.crossref")) {
-      scraped.Association = "IET";
-  }
-  else if (assoc_url.includes("wiley")) {
-      scraped.Association = "Wiley";
-  }
-  else {
-      scraped.Association = "Unknown";
-  }
-  return scraped;
-}
 
 
 

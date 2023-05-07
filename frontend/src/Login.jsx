@@ -45,6 +45,7 @@ export default function Login() {
               const privilege = response.data.privilege;
               console.log(accesstoken);
               localStorage.setItem('token',accesstoken);
+              localStorage.setItem('privilege',privilege);
               LoginSuccess = true;
               localStorage.setItem('username',values['username']);
               if(privilege === 0){

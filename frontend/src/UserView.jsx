@@ -15,8 +15,10 @@ export default function  UserView(){
 
     async function loadPapers() {
         const token = localStorage.getItem("token");
+        const userId = localStorage.getItem("userId");
         const response = await axios.get(PAPERS_URL, {
           headers: { authorization: `Bearer ${token}` },
+          
         }).catch((e) => {console.log(e);})
         const loadedArray = response.data; // extract the array data from the response object
         return loadedArray;
