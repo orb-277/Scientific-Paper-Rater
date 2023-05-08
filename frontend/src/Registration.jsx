@@ -39,7 +39,14 @@ export default function Registration() {
           })
             .then(function (response) {
               //handle success
-              console.log(response);
+              console.log(response)
+              if(response.status == 201){
+                alert('Registration Successful');
+         
+                //redirect to login page
+                window.location.href = '/login';
+
+              }
 
             })
             .catch(function (response) {

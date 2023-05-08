@@ -83,8 +83,8 @@ function UserSearch() {
     <>
     <AdminNavBar/>
     <div>
-    <TextField id="outlined-basic" label="Enter UserName" variant="outlined" 
-              placeholder="Search by username"
+    <TextField id="outlined-basic" label="Search by Username" variant="outlined" 
+              placeholder="Enter username"
               value={username}
               onChange={(event) => {setUsername(event.target.value);}}
     

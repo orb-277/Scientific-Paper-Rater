@@ -90,7 +90,8 @@ const [assocFound, setAssocFound] = useState(false);
         }
         else{
           setAssocFound(false);
-          setFieldValue(props.name, 'Association Not Found');
+          
+          setFieldValue(props.name, 'Please enter a valid DOI');
 
         }
         
@@ -363,7 +364,7 @@ const StepTwo = (props) => {
                   name="ConferenceType"
                   label="ConferenceType"
                   component={Select}
-                  style={{ width: "100%" }}
+                  defaultValue="International"
                 >
                   <MenuItem value={"National"}>National</MenuItem>
                   <MenuItem value={"International"}>International</MenuItem>
