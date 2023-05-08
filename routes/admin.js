@@ -73,7 +73,10 @@ router.get('/user/papers', authAdmin, async (req, res) => {
 router.delete('/user/delete', authAdmin, async (req, res) => {
     try {
         const user_id = req.body.user_id;
+        console.log("in delete user")
+        console.log(user_id)
         const user = await User.findByIdAndDelete(user_id);
+        console.log(user)
         //delete all papers of the user
         await Paper.deleteMany({ author_user_id: user_id }); //TODO: not tested
         res.status(201).json(user);
@@ -88,15 +91,14 @@ router.delete('/user/delete', authAdmin, async (req, res) => {
 router.delete('/paper/delete', authAdmin, async (req, res) => {
     try {
         const paper_id = req.body.paper_id;
-        console.log(paper_id)
+     
         const paper = await Paper.findByIdAndDelete(paper_id);
-        console.log(paper)
+       
         const user_id = paper.author_user_id;
-        console.log("inside paper delete")
-        console.log(user_id); 
+     
         const user = await User.findById(user_id);
         user.total_submissions = user.total_submissions - 1;
-        await user.save(); //TODO: not tested
+        await user.save(); 
         res.status(201).json(paper);
     } catch (error) {
         console.error(error);

@@ -27,6 +27,7 @@ export default function  AdminUserView(){
     //console.log(papers);
     const navigate = useNavigate();
     const handleDelete = () => {
+        console.log("Handle delete called");
         axios({
             method: "delete",
             url: USERS_DELETE_URL,
@@ -143,7 +144,7 @@ export default function  AdminUserView(){
         {cardLoad}
         {/* <button onClick={handleDelete}>Delete {username}</button> */}
         
-        <IconButton onClick={() => {handleDelete}} size="large" style={{position: 'relative'}}>
+        <IconButton onClick={() => {handleDelete()}} size="large" style={{position: 'relative'}}>
                         <DeleteOutlined fontSize="inherit" />
                         
 

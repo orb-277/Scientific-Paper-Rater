@@ -10,6 +10,7 @@ const PAPERS_URL = "http://localhost:5050/home/papers";
 
 export default function UserView() {
   const [papers, setPapers] = useState([]);
+
   //console.log(papers);
   const handleDelete = (paperId) => {
     let PAPER_DELETE_URL = "http://localhost:5050/home/papers/delete";
@@ -61,6 +62,9 @@ export default function UserView() {
   useEffect(() => {
     async function fetchData() {
       const loadedArray = await loadPapers();
+      if(loadedArray.length==0){
+        alert("No papers found, Add your first paper!");	
+      }
       setPapers(loadedArray);
       console.log(loadedArray);
     }

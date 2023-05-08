@@ -28,9 +28,9 @@ export const NavBar = () => {
 
             <input type="checkbox" id="check" />
 
-            <label for="check" class="checkBtn">
+            <label for="check" className="checkBtn">
 
-                <i class="fa fa-bars"></i>
+                <i className="fa fa-bars"></i>
 
             </label>
 

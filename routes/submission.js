@@ -120,10 +120,10 @@ async function scrapeInfo(author_name, title) {
 async function generateMarks(paper) {
     var paperScore = 0;
     if (paper.type === "Journal") {
-        paperScore += 5;
+        paperScore += 20;
     }
     else if (paper.type === "Conference") {
-        paperScore += 3;
+        paperScore += 10;
     }
     if (paper.association === "IEEE") {
         paperScore += 10;
@@ -159,8 +159,9 @@ async function generateMarks(paper) {
     }
 
     if (paper.auth_h_index != -1) {
-        paperScore += paper.auth_h_index / 10; //TODO: review later
+        paperScore += paper.auth_h_index / 100; //TODO: review later
     }
+    paperScore = paperScore.toFixed(2);
     return paperScore;
 }
 router.get('/association', auth, async (req, res) => {
@@ -169,14 +170,7 @@ router.get('/association', auth, async (req, res) => {
 });
 
 router.post('/submit', auth, async (req, res) => {
-    // manual test set up 
-    // req.body = {
-    //     "association": "ACM",
-    //     "title": "Something ABC",
-    //     "journal_conf_name": "Econometrica",
-    //     "type": "Journal",
-    //     "DOI": "https://doi.org/10.1145/1741906.1742236"
-    // }
+
     try {
         var paper = {};
 
@@ -190,8 +184,7 @@ router.post('/submit', auth, async (req, res) => {
         const user = await User.findById(user_id);
         paper.association = paper_info.association;
         paper.title = paper_info.title;
-        paper.journal_conf_name = paper_info.journal_conf_name;
-        console.log(paper.journal_conf_name); 
+        paper.journal_conf_name = paper_info.journal_conf_name; 
         if(paper.journal_conf_name === undefined || paper.journal_conf_name === null || paper.journal_conf_name === ""){
             return res.status(400).json({ "message": "Journal/Conference name is required" });
         }
@@ -201,12 +194,6 @@ router.post('/submit', auth, async (req, res) => {
 
         paper.author_name = user.username;
         paper.author_user_id = user_id;
-
-
-
-
-        //paper.isInternationalConf = paper_info.isInternationalConf;
-        //var x = await scrapeAssociation("https://doi.org/10.1007/978-3-030-32245-8_1");
 
 
 
