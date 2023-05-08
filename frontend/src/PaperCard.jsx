@@ -2,6 +2,7 @@ import React from "react";
 import Card from '@material-ui/core/Card';
 import { CardHeader,CardContent, IconButton, Typography } from "@material-ui/core";
 import axios from 'axios'
+import { withStyles } from "@material-ui/core/styles";
 import {DeleteOutlined} from '@material-ui/icons'
 import { useNavigate } from "react-router-dom";
 
@@ -13,17 +14,17 @@ export default function PaperCard(props){
     return (
         
             <Card elevation={4}>
-                <CardHeader action={
+                <CardHeader style={{'margin-bottom':'0px'}} action={
                     <IconButton onClick={() => props.handleDelete(props.paper._id)}>
                         <DeleteOutlined />
                     </IconButton>
                 }
                 
                 title={<a href={props.paper.DOI}>{props.paper.title}</a>}
-                // subheader={paper.author}
+                
                 />
             
-            <CardContent>
+            <CardContent style={{'margin-top':'0px','margin-right':'25px','padding-top':'0px'}}>
                 <Typography>
                 
 
@@ -34,7 +35,7 @@ export default function PaperCard(props){
                 Association: {props.paper.association}
 
                 </Typography>
-                <Typography style={{fontSize: "1.5rem", fontWeight: "bold" }}>
+                <Typography style={{fontSize: "1.5rem", fontWeight: "bold"}}>
                 {props.paper.Paper_Score}
                 </Typography>
                     

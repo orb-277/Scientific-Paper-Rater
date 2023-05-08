@@ -39,6 +39,15 @@ html, body, #root, .wrapper {
 #blackh2{
   color:black;
 }
+button:hover::before {
+  content: ' ';
+  cursor: pointer;
+}
+
+button:hover span {
+  opacity: 1;
+}
+
 
 
 

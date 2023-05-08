@@ -73,7 +73,7 @@ export default function UserView() {
   return (
     <Container>
       <NavBar />
-      <h2 style={{ color: "black" }}>Your Papers:</h2>
+      {/* <h2 style={{ color: "black" }}>Y</h2> */}
 
       {cardLoad}
     </Container>

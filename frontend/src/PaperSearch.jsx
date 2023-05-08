@@ -104,7 +104,7 @@ function PaperSearch() {
     <>
     <AdminNavBar/>
     <div>
-    <TextField id="outlined-basic" label="Enter Name" variant="outlined" 
+    <TextField id="outlined-basic" label="Paper Title" variant="outlined" 
               placeholder="Search by username"
               value={papername}
               onChange={(event) => {setPapername(event.target.value);}}

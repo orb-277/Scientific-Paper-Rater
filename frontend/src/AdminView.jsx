@@ -51,15 +51,16 @@ export default function  AdminView(){
     
       
       return (
-
+      <div>
       <ButtonBase key={user.id} onClick={handleClick}>
-        <Card>
+        <Card style={{'width':'500px'}}>
             <CardContent>
                 <Typography variant="h5">{user.username}</Typography>
-                <Typography variant="subtitle1">{user.total_submissions}</Typography>
+                <Typography style={{fontSize: "1.5rem", fontWeight: "bold"}}>{user.total_submissions}</Typography>
             </CardContent>
         </Card>
         </ButtonBase>
+      </div>
 
       
       )

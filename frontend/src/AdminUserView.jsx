@@ -4,6 +4,7 @@ import './App.css'
 import {NavBar}  from './NavBar';
 import { useState,useEffect } from 'react';
 import {ButtonBase, Card,CardContent, Typography} from '@material-ui/core';
+import { CardHeader} from "@material-ui/core";
 import PaperCard from './PaperCard'
 import { Grid,Container } from '@mui/material';
 import {Link, useNavigate} from 'react-router-dom';
@@ -11,6 +12,7 @@ import {AppBar,Toolbar,IconButton,Stack,Button} from '@mui/material';
 import {AdminNavBar}  from './AdminNavBar';
 const PAPERS_URL = 'http://localhost:5050/admin/user/papers';
 const USERS_DELETE_URL = 'http://localhost:5050/admin/user/delete';
+import {DeleteOutlined} from '@material-ui/icons'
 
 
 
@@ -138,10 +140,15 @@ export default function  AdminUserView(){
         
         <>
         <AdminNavBar/>
-        <button onClick={()=>{navigate('/admin')}}>Back</button>
-        <button onClick={handleDelete}>Delete {username}</button>
-        <h2 style={{color:'black'}}>Papers</h2>
         {cardLoad}
+        {/* <button onClick={handleDelete}>Delete {username}</button> */}
+        
+        <IconButton onClick={() => {handleDelete}} size="large" style={{position: 'relative'}}>
+                        <DeleteOutlined fontSize="inherit" />
+                        
+
+        </IconButton>
+        <h6 style={{'margin-top':'0px'}}>Delete {username}?</h6>
         
         </>
 

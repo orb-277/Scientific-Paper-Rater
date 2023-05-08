@@ -284,7 +284,7 @@ const StepTwo = (props) => {
   };
   const handleSubmit = (values, helpers) => {
     //props.next(values);
-    alert(JSON.stringify(values['assoc']));
+    // alert(JSON.stringify(values['assoc']));
 
     const token = localStorage.getItem("token");
 

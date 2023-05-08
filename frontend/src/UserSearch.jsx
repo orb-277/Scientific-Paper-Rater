@@ -61,15 +61,17 @@ function UserSearch() {
 
   
   return (
+    <div>
 
   <ButtonBase key={user.id} onClick={handleClick}>
     <Card>
-        <CardContent>
+        <CardContent style={{'width':'500px'}}>
             <Typography variant="h5">{user.username}</Typography>
             <Typography variant="subtitle1">{user.total_submissions}</Typography>
         </CardContent>
     </Card>
     </ButtonBase>
+    </div>
 
   
   )
@@ -81,7 +83,7 @@ function UserSearch() {
     <>
     <AdminNavBar/>
     <div>
-    <TextField id="outlined-basic" label="Enter Name" variant="outlined" 
+    <TextField id="outlined-basic" label="Enter UserName" variant="outlined" 
               placeholder="Search by username"
               value={username}
               onChange={(event) => {setUsername(event.target.value);}}
