@@ -91,7 +91,7 @@ const [assocFound, setAssocFound] = useState(false);
         else{
           setAssocFound(false);
           
-          setFieldValue(props.name, 'Please enter a valid DOI');
+          setFieldValue(props.name, '');
 
         }
         
